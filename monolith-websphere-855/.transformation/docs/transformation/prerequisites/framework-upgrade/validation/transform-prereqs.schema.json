@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mcaps.microsoft.com/schemas/transform-prereqs.schema.json",
+  "title": ".NET 8 -> .NET 9 Upgrade Prerequisites Validation Result",
+  "description": "Schema for machine-readable readiness assessment produced by the Transformation Agent (version 1.0.0).",
+  "type": "object",
+  "required": [
+    "metadata","overall","versionSupport","applicability","toolchain","repoHealth","projectModel","dependencies","languageRuntime","breakingChanges","configurationHosting","observability","security","dataTier","testing","featureFlags","performanceBaseline","automation","riskRegister","readinessChecklist","agentInputs","postUpgradeValidation","documentation","rollback"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["schemaVersion","generatedAtUtc","targetFramework","sourceFramework","generator"],
+      "properties": {
+        "schemaVersion": {"type": "string","const": "1.0.0"},
+        "generatedAtUtc": {"type": "string","format": "date-time"},
+        "targetFramework": {"type": "string","const": "net9.0"},
+        "sourceFramework": {"type": "string","const": "net8.0"},
+        "generator": {"type": "string"},
+        "multiTarget": {"type": "boolean"},
+        "notes": {"type": "string"}
+      }
+    },
+    "overall": {
+      "type": "object",
+      "required": ["status","summary"],
+      "properties": {
+        "status": {"type": "string","enum": ["pass","warn","fail","na"]},
+        "summary": {"type": "string"},
+        "counts": {
+          "type": "object",
+            "required": ["pass","warn","fail","na"],
+            "properties": {
+              "pass": {"type": "integer","minimum": 0},
+              "warn": {"type": "integer","minimum": 0},
+              "fail": {"type": "integer","minimum": 0},
+              "na": {"type": "integer","minimum": 0}
+            }
+        },
+        "hints": {"type": "array","items": {"type": "string"},"description": "Optional short gating messages."}
+      }
+    },
+    "versionSupport": {"$ref": "#/definitions/category"},
+    "applicability": {"$ref": "#/definitions/category"},
+    "toolchain": {"$ref": "#/definitions/category"},
+    "repoHealth": {"$ref": "#/definitions/category"},
+    "projectModel": {"$ref": "#/definitions/category"},
+    "dependencies": {"$ref": "#/definitions/dependencyCategory"},
+    "languageRuntime": {"$ref": "#/definitions/category"},
+    "breakingChanges": {"$ref": "#/definitions/category"},
+    "configurationHosting": {"$ref": "#/definitions/category"},
+    "observability": {"$ref": "#/definitions/category"},
+    "security": {"$ref": "#/definitions/category"},
+    "dataTier": {"$ref": "#/definitions/category"},
+    "testing": {"$ref": "#/definitions/category"},
+    "featureFlags": {"$ref": "#/definitions/category"},
+    "performanceBaseline": {"$ref": "#/definitions/category"},
+    "automation": {"$ref": "#/definitions/category"},
+    "riskRegister": {"$ref": "#/definitions/category"},
+    "readinessChecklist": {"$ref": "#/definitions/category"},
+    "agentInputs": {"$ref": "#/definitions/category"},
+    "postUpgradeValidation": {"$ref": "#/definitions/category"},
+    "documentation": {"$ref": "#/definitions/category"},
+    "rollback": {"$ref": "#/definitions/category"}
+  },
+  "definitions": {
+    "statusEnum": {"type": "string","enum": ["pass","warn","fail","na"]},
+    "evidence": {
+      "type": "object",
+      "required": ["description"],
+      "properties": {
+        "files": {"type": "array","items": {"type": "string"}},
+        "commands": {"type": "array","items": {"type": "string"}},
+        "description": {"type": "string"},
+        "hashes": {"type": "array","items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "item": {
+      "type": "object",
+      "required": ["id","title","status"],
+      "properties": {
+        "id": {"type": "string","pattern": "^[a-z0-9-]+$"},
+        "title": {"type": "string"},
+        "status": {"$ref": "#/definitions/statusEnum"},
+        "optional": {"type": "boolean","default": false},
+        "details": {"type": "string"},
+        "remediation": {"type": "string"},
+        "evidence": {"$ref": "#/definitions/evidence"},
+        "metrics": {"type": "object","additionalProperties": {"type": ["number","string","boolean"]}},
+        "links": {"type": "array","items": {"type": "string","format": "uri"}},
+        "previousStatus": {"$ref": "#/definitions/statusEnum","description": "Included in diff mode when status changed."}
+      },
+      "additionalProperties": false
+    },
+    "category": {
+      "type": "object",
+      "required": ["status","items"],
+      "properties": {
+        "status": {"$ref": "#/definitions/statusEnum"},
+        "items": {"type": "array","items": {"$ref": "#/definitions/item"}},
+        "summary": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "dependencyDetail": {
+      "type": "object",
+      "required": ["name","currentVersion","status"],
+      "properties": {
+        "name": {"type": "string"},
+        "currentVersion": {"type": "string"},
+        "latestKnownVersion": {"type": "string"},
+        "targetVersion": {"type": "string"},
+        "status": {"$ref": "#/definitions/statusEnum"},
+        "breaking": {"type": "boolean"},
+        "deprecated": {"type": "boolean"},
+        "migrationNotes": {"type": "string"},
+        "license": {"type": "string"},
+        "source": {"type": "string","enum": ["nuget","local","git","other"]}
+      },
+      "additionalProperties": false
+    },
+    "dependencyCategory": {
+      "type": "object",
+      "required": ["status","items","packages"],
+      "properties": {
+        "status": {"$ref": "#/definitions/statusEnum"},
+        "items": {"type": "array","items": {"$ref": "#/definitions/item"}},
+        "packages": {"type": "array","items": {"$ref": "#/definitions/dependencyDetail"}},
+        "summary": {"type": "string"},
+        "packagesCounts": {"type": "object","properties": {"total": {"type": "integer"},"pass": {"type": "integer"},"warn": {"type": "integer"},"fail": {"type": "integer"},"deprecated": {"type": "integer"},"breaking": {"type": "integer"}},"required": ["total"]},
+        "chunkInfo": {"type": "object","properties": {"index": {"type": "integer"},"totalChunks": {"type": "integer"}}}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

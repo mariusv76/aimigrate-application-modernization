@@ -1,0 +1,233 @@
+{
+  "projectName": "Customer Loyalty Management System",
+  "version": "1.0.0",
+  "description": "Manage customer profiles, loyalty points, and transaction history across retail channels with real-time integration, scalability, and security compliance.",
+  "sourceArchitecture": {
+    "name": "On-Premises Microservices Architecture",
+    "components": [
+      {
+        "name": "Frontend",
+        "type": "UI",
+        "description": "React.js web app and native mobile apps for iOS/Android.",
+        "transformationNotes": "Re-host frontend on Azure App Service or Azure Static Web Apps."
+      },
+      {
+        "name": "Backend Microservices",
+        "type": "microservice",
+        "description": "Node.js microservices containerized with Kubernetes/OpenShift.",
+        "transformationNotes": "Modernize to Azure Kubernetes Service (AKS)."
+      },
+      {
+        "name": "API Gateway",
+        "type": "gateway",
+        "description": "NGINX/Kong for routing, authentication, and rate limiting.",
+        "transformationNotes": "Re-host on Azure VMs or modernize to Azure API Management."
+      },
+      {
+        "name": "Database",
+        "type": "database",
+        "description": "SQL Server AlwaysOn clusters for transactional data.",
+        "transformationNotes": "Modernize to Azure SQL Managed Instance or Azure SQL Database."
+      },
+      {
+        "name": "Cache",
+        "type": "cache",
+        "description": "Redis for caching.",
+        "transformationNotes": "Modernize to Azure Cache for Redis."
+      },
+      {
+        "name": "Messaging",
+        "type": "messaging",
+        "description": "RabbitMQ or Kafka for asynchronous communication.",
+        "transformationNotes": "Modernize to Azure Service Bus or Event Hubs."
+      },
+      {
+        "name": "Monitoring",
+        "type": "observability",
+        "description": "Prometheus, Grafana, ELK/Splunk for logs and metrics.",
+        "transformationNotes": "Modernize to Azure Monitor and Log Analytics."
+      }
+    ],
+    "patterns": [
+      "Microservices",
+      "Domain-Driven Design",
+      "REST APIs",
+      "High Availability"
+    ],
+    "technologies": [
+      {
+        "name": "React.js",
+        "category": "runtime",
+        "replacementTarget": "Azure Static Web Apps"
+      },
+      {
+        "name": "Node.js",
+        "category": "runtime",
+        "replacementTarget": "Azure Kubernetes Service"
+      },
+      {
+        "name": "NGINX/Kong",
+        "category": "gateway",
+        "replacementTarget": "Azure API Management"
+      },
+      {
+        "name": "SQL Server",
+        "category": "database",
+        "replacementTarget": "Azure SQL Managed Instance"
+      },
+      {
+        "name": "Redis",
+        "category": "cache",
+        "replacementTarget": "Azure Cache for Redis"
+      },
+      {
+        "name": "RabbitMQ/Kafka",
+        "category": "messaging",
+        "replacementTarget": "Azure Service Bus"
+      },
+      {
+        "name": "Prometheus/Grafana",
+        "category": "monitoring",
+        "replacementTarget": "Azure Monitor"
+      }
+    ]
+  },
+  "targetArchitecture": {
+    "name": "Target Azure Cloud Architecture",
+    "components": [
+      {
+        "name": "Frontend",
+        "type": "UI",
+        "description": "React.js web app and native mobile apps hosted on Azure.",
+        "transformationNotes": "Deployed on Azure Static Web Apps."
+      },
+      {
+        "name": "Backend Microservices",
+        "type": "microservice",
+        "description": "Node.js microservices containerized on AKS.",
+        "transformationNotes": "Deployed on Azure Kubernetes Service."
+      },
+      {
+        "name": "API Gateway",
+        "type": "gateway",
+        "description": "Azure API Management for routing and security.",
+        "transformationNotes": "Replaced with Azure API Management."
+      },
+      {
+        "name": "Database",
+        "type": "database",
+        "description": "Azure SQL Managed Instance for transactional data.",
+        "transformationNotes": "Modernized to Azure SQL Managed Instance."
+      },
+      {
+        "name": "Cache",
+        "type": "cache",
+        "description": "Azure Cache for Redis for caching.",
+        "transformationNotes": "Modernized to Azure Cache for Redis."
+      },
+      {
+        "name": "Messaging",
+        "type": "messaging",
+        "description": "Azure Service Bus for asynchronous communication.",
+        "transformationNotes": "Modernized to Azure Service Bus."
+      },
+      {
+        "name": "Monitoring",
+        "type": "observability",
+        "description": "Azure Monitor and Log Analytics for observability.",
+        "transformationNotes": "Modernized to Azure Monitor."
+      }
+    ],
+    "patterns": [
+      "Cloud-Native",
+      "Managed Services",
+      "High Availability",
+      "Scalability"
+    ],
+    "technologies": [
+      {
+        "name": "Azure Static Web Apps",
+        "category": "runtime",
+        "replacementTarget": null
+      },
+      {
+        "name": "Azure Kubernetes Service",
+        "category": "runtime",
+        "replacementTarget": null
+      },
+      {
+        "name": "Azure API Management",
+        "category": "gateway",
+        "replacementTarget": null
+      },
+      {
+        "name": "Azure SQL Managed Instance",
+        "category": "database",
+        "replacementTarget": null
+      },
+      {
+        "name": "Azure Cache for Redis",
+        "category": "cache",
+        "replacementTarget": null
+      },
+      {
+        "name": "Azure Service Bus",
+        "category": "messaging",
+        "replacementTarget": null
+      },
+      {
+        "name": "Azure Monitor",
+        "category": "monitoring",
+        "replacementTarget": null
+      }
+    ]
+  },
+  "transformationRules": [
+    {
+      "id": "rule-001",
+      "name": "Re-host Frontend",
+      "description": "Migrate React.js frontend to Azure Static Web Apps.",
+      "sourcePattern": "On-premises React.js",
+      "targetPattern": "Azure Static Web Apps",
+      "category": "Re-Host",
+      "priority": 5,
+      "steps": [
+        "Deploy code to Azure Static Web Apps",
+        "Configure CI/CD pipeline"
+      ],
+      "rationale": "Simplifies hosting and enables scalability."
+    },
+    {
+      "id": "rule-002",
+      "name": "Modernize Backend Microservices",
+      "description": "Migrate Node.js microservices to Azure Kubernetes Service.",
+      "sourcePattern": "On-premises Kubernetes/OpenShift",
+      "targetPattern": "Azure Kubernetes Service",
+      "category": "Modernize",
+      "priority": 8,
+      "steps": [
+        "Containerize services",
+        "Deploy to AKS",
+        "Configure scaling policies"
+      ],
+      "rationale": "Leverages managed Kubernetes for scalability and reduced operational overhead."
+    },
+    {
+      "id": "rule-003",
+      "name": "Modernize Database",
+      "description": "Migrate SQL Server to Azure SQL Managed Instance.",
+      "sourcePattern": "SQL Server AlwaysOn",
+      "targetPattern": "Azure SQL Managed Instance",
+      "category": "Modernize",
+      "priority": 9,
+      "steps": [
+        "Backup and restore database",
+        "Configure HA and DR policies"
+      ],
+      "rationale": "Provides cloud-native high availability and scalability."
+    }
+  ],
+  "dependencies": [],
+  "migrationComplexity": "high",
+  "estimatedEffort": "6-12 months"
+}
