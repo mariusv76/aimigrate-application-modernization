@@ -37,10 +37,9 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.6.1</version>
+        <version>3.11.0</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <release>17</release>
         </configuration>
       </plugin>
       <!-- The ear plugin must include the definition for "modules", for any				modules that are needed to be included in the EAR file, you need to specify				them one by one, e.g. "ejbModule", "webModule", "jarModule" and "appClientModule". -->
