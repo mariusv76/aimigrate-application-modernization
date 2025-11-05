@@ -26,7 +26,7 @@ You are an AI agent tasked with performing the **first migration task** for the 
    - List all modules that need updates
    - Identify potential breaking changes
    - Document expected outcomes
-   - Save plan to `.transformation/tasks/TASK-001-plan.md`
+   - Save plan to `.vscode/transformation/TASK-001/plan.md`
 
 3. **Get user confirmation**
    - Present the plan to the user
@@ -41,9 +41,9 @@ You are an AI agent tasked with performing the **first migration task** for the 
    - Commit message: "chore: create branch for Java 17 upgrade task"
 
 5. **Initialize progress tracking**
-   - Create `.transformation/progress/TASK-001-progress.md`
+   - Create `.vscode/transformation/TASK-001/progress.md`
    - Initialize with: task start time, current status, completed steps
-   - Create `.transformation/todos/TASK-001-todos.md`
+   - Create `.vscode/transformation/TASK-001/todos.md`
    - List all sub-tasks with checkboxes
 
 ### Phase 3: Implementation
@@ -81,8 +81,8 @@ You are an AI agent tasked with performing the **first migration task** for the 
    - Use conventional commit format
 
 8. **Update progress tracking after each commit**
-   - Update `TASK-001-progress.md` with completed steps
-   - Check off items in `TASK-001-todos.md`
+   - Update `.vscode/transformation/TASK-001/progress.md` with completed steps
+   - Check off items in `.vscode/transformation/TASK-001/todos.md`
    - Document any issues or deviations
 
 ### Phase 4: Validation & Testing
@@ -107,7 +107,7 @@ You are an AI agent tasked with performing the **first migration task** for the 
 ### Phase 5: Documentation & Summary
 
 12. **Generate migration summary**
-    - Create `.transformation/summaries/TASK-001-summary.md` with:
+    - Create `.vscode/transformation/TASK-001/summary.md` with:
       - Task completion date/time
       - Files modified (count and list)
       - Commits created (count and list with messages)
@@ -117,7 +117,7 @@ You are an AI agent tasked with performing the **first migration task** for the 
       - Recommendations for next tasks
 
 13. **Generate diff documentation**
-    - For EACH modified file, create `.transformation/diffs/TASK-001/{filename}.diff.md`
+    - For EACH modified file, create `.vscode/transformation/TASK-001/diffs/{filename}.diff.md`
     - Include:
       - File path
       - Before/after code comparison
@@ -179,17 +179,14 @@ Example: `build(pom): update compiler plugin to Java 17`
 
 ### File Organization
 ```
-.transformation/
-├── tasks/
-│   └── TASK-001-plan.md
-├── progress/
-│   └── TASK-001-progress.md
-├── todos/
-│   └── TASK-001-todos.md
-├── summaries/
-│   └── TASK-001-summary.md
-└── diffs/
-    └── TASK-001/
+.vscode/transformation/
+└── TASK-001/
+    ├── plan.md
+    ├── progress.md
+    ├── todos.md
+    ├── summary.md
+    ├── handoff.md
+    └── diffs/
         ├── CustomerOrderServicesProject-pom.xml.diff.md
         ├── CustomerOrderServices-pom.xml.diff.md
         └── ... (one file per changed file)
