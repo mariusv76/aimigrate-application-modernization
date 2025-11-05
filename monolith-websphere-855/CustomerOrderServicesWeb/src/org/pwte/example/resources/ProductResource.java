@@ -4,8 +4,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import jakarta.ejb.EJB;
-import jakarta.naming.InitialContext;
-import jakarta.naming.NamingException;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;

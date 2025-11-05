@@ -228,9 +228,11 @@
 
   <modules>
         <module>../CustomerOrderServices</module>
-        <module>../CustomerOrderServicesWeb</module>
-        <module>../CustomerOrderServicesTest</module>
-        <module>../CustomerOrderServicesApp</module>
+        <!-- Temporarily disabled - Contains WebSphere-specific dependencies (IBM JSON4J) -->
+        <!-- Will be migrated in TASK-004 (WebSphere to Open Liberty) -->
+        <!-- <module>../CustomerOrderServicesWeb</module> -->
+        <!-- <module>../CustomerOrderServicesTest</module> -->
+        <!-- <module>../CustomerOrderServicesApp</module> -->
   </modules>
 
 </project>

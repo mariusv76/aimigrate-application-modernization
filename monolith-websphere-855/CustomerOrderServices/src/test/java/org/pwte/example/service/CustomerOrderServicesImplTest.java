@@ -109,11 +109,11 @@ class CustomerOrderServicesImplTest {
         // Arrange
         when(em.createQuery(anyString())).thenReturn(query);
         when(query.setParameter(anyString(), any())).thenReturn(query);
-        when(query.getSingleResult()).thenThrow(new javax.persistence.NoResultException());
+        when(query.getSingleResult()).thenThrow(new jakarta.persistence.NoResultException());
 
         // Act & Assert
         assertThatThrownBy(() -> service.loadCustomer())
-                .isInstanceOf(javax.persistence.NoResultException.class);
+                .isInstanceOf(jakarta.persistence.NoResultException.class);
     }
 
     // ===== openOrder Tests =====
