@@ -59,8 +59,7 @@ class CustomerOrderServicesImplTest {
         testCustomer = new ResidentialCustomer();
         testCustomer.setCustomerId(TEST_CUSTOMER_ID);
         testCustomer.setUser(TEST_USER);
-        testCustomer.setFirstName("Test");
-        testCustomer.setLastName("User");
+        testCustomer.setName("Test User");
 
         // Setup test product
         testProduct = new Product();
@@ -77,9 +76,10 @@ class CustomerOrderServicesImplTest {
         testOrder.setVersion(1L);
         testOrder.setLineitems(new HashSet<>());
 
-        // Default mock behaviors
-        when(ctx.getCallerPrincipal()).thenReturn(principal);
-        when(principal.getName()).thenReturn(TEST_USER);
+        // Default mock behaviors - use lenient() to avoid UnnecessaryStubbingException
+        // when not all stubs are used in every test
+        lenient().when(ctx.getCallerPrincipal()).thenReturn(principal);
+        lenient().when(principal.getName()).thenReturn(TEST_USER);
     }
 
     // ===== loadCustomer Tests =====
@@ -582,7 +582,7 @@ class CustomerOrderServicesImplTest {
     void testUpdateAddress_Success() throws Exception {
         // Arrange
         Address newAddress = new Address();
-        newAddress.setStreet("123 New St");
+        newAddress.setAddressLine1("123 New St");
         newAddress.setCity("New City");
         newAddress.setState("NC");
         newAddress.setZip("12345");
@@ -596,7 +596,7 @@ class CustomerOrderServicesImplTest {
 
         // Assert
         assertThat(testCustomer.getAddress()).isEqualTo(newAddress);
-        assertThat(testCustomer.getAddress().getStreet()).isEqualTo("123 New St");
+        assertThat(testCustomer.getAddress().getAddressLine1()).isEqualTo("123 New St");
     }
 
     @Test
