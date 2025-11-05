@@ -37,7 +37,7 @@ You are an AI agent tasked with performing **TASK-002** for the Customer Order S
 
 4. **Create a dedicated migration branch**
    - Branch name: `migration/task-002-test-foundation`
-   - Branch from: `migration/task-001-java-17-upgrade` (completed branch)
+   - Branch from: current branch (agent-test or your working branch)
    - Commit message: "chore: create branch for test foundation task"
 
 5. **Initialize progress tracking**

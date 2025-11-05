@@ -41,7 +41,7 @@ You are an AI agent tasked with performing **TASK-005** for the Customer Order S
 
 4. **Create a dedicated migration branch**
    - Branch name: `migration/task-005-database-migration`
-   - Branch from: `migration/task-004-jackson-upgrade` (completed branch)
+   - Branch from: current branch (agent-test or your working branch)
    - Commit message: "chore: create branch for database migration task"
 
 5. **Initialize progress tracking**

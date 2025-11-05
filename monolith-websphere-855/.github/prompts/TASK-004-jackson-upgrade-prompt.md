@@ -40,7 +40,7 @@ You are an AI agent tasked with performing **TASK-004** for the Customer Order S
 
 4. **Create a dedicated migration branch**
    - Branch name: `migration/task-004-jackson-upgrade`
-   - Branch from: `migration/task-003-jakarta-migration` (completed branch)
+   - Branch from: current branch (agent-test or your working branch)
    - Commit message: "chore: create branch for Jackson upgrade task"
 
 5. **Initialize progress tracking**

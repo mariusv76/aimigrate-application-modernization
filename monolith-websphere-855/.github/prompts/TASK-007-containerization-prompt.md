@@ -31,8 +31,16 @@ You are an AI agent tasked with performing **TASK-007** for the Customer Order S
 
 ### Phase 2: Branch & Progress Setup
 
-4. **Create branch:** `migration/task-007-containerization`
-5. **Initialize tracking:** Create progress and todos files
+4. **Create a dedicated migration branch**
+   - Branch name: `migration/task-007-containerization`
+   - Branch from: current branch (agent-test or your working branch)
+   - Commit message: "chore: create branch for containerization task"
+
+5. **Initialize progress tracking**
+   - Create `.transformation/progress/TASK-007-progress.md`
+   - Initialize with: task start time, current status, completed steps
+   - Create `.transformation/todos/TASK-007-todos.md`
+   - List all sub-tasks with checkboxes
 
 ### Phase 3: Implementation - Containerization
 

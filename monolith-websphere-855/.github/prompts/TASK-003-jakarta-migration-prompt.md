@@ -39,7 +39,7 @@ You are an AI agent tasked with performing **TASK-003** for the Customer Order S
 
 4. **Create a dedicated migration branch**
    - Branch name: `migration/task-003-jakarta-migration`
-   - Branch from: `migration/task-002-test-foundation` (completed branch)
+   - Branch from: current branch (agent-test or your working branch)
    - Commit message: "chore: create branch for Jakarta EE migration task"
 
 5. **Initialize progress tracking**

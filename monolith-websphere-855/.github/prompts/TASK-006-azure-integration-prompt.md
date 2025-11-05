@@ -32,8 +32,16 @@ You are an AI agent tasked with performing **TASK-006** for the Customer Order S
 
 ### Phase 2: Branch & Progress Setup
 
-4. **Create branch:** `migration/task-006-azure-integration`
-5. **Initialize tracking:** Create progress and todos files
+4. **Create a dedicated migration branch**
+   - Branch name: `migration/task-006-azure-integration`
+   - Branch from: current branch (agent-test or your working branch)
+   - Commit message: "chore: create branch for Azure integration task"
+
+5. **Initialize progress tracking**
+   - Create `.transformation/progress/TASK-006-progress.md`
+   - Initialize with: task start time, current status, completed steps
+   - Create `.transformation/todos/TASK-006-todos.md`
+   - List all sub-tasks with checkboxes
 
 ### Phase 3: Implementation - Azure Services Setup
 
