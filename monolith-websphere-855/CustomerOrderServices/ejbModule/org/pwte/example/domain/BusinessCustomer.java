@@ -2,9 +2,9 @@ package org.pwte.example.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Column;
 
 @Entity
 @DiscriminatorValue("BUSINESS")

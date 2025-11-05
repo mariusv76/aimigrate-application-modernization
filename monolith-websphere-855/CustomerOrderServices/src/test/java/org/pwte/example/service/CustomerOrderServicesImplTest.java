@@ -10,9 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.pwte.example.domain.*;
 import org.pwte.example.exception.*;
 
-import javax.ejb.SessionContext;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import jakarta.ejb.SessionContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.*;
