@@ -33,8 +33,8 @@
     <surefire.version>3.2.3</surefire.version>
     
     <!-- Build plugin versions -->
-    <rewrite-maven-plugin.version>5.15.0</rewrite-maven-plugin.version>
-    <rewrite-migrate-java.version>2.8.0</rewrite-migrate-java.version>
+    <rewrite-maven-plugin.version>5.21.0</rewrite-maven-plugin.version>
+    <rewrite-migrate-java.version>2.26.1</rewrite-migrate-java.version>
   </properties>
 
   <dependencyManagement>
