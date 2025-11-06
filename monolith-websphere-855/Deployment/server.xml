@@ -27,15 +27,13 @@
         <classloader delegation="parentLast"/>
     </application>
 
-    <!-- DB2 Datasource Configuration -->
+    <!-- DB2 Datasource Configuration - DISABLED (no DB2 driver available) -->
+    <!--
     <dataSource id="orderDS" 
                 jndiName="jdbc/orderds"
                 statementCacheSize="60"
                 connectionSharing="MatchCurrentState">
-        <!-- DB2 JDBC Driver Reference -->
         <jdbcDriver libraryRef="db2DriverLib"/>
-        
-        <!-- DB2 Connection Properties -->
         <properties.db2.jcc 
             databaseName="${env.DB_NAME}"
             serverName="${env.DB_HOST}"
@@ -44,8 +42,6 @@
             password="${env.DB_PASSWORD}"
             currentSchema="${env.DB_SCHEMA}"
             progressiveStreaming="2"/>
-        
-        <!-- Connection Pool Configuration -->
         <connectionManager 
             maxPoolSize="20" 
             minPoolSize="5"
@@ -55,12 +51,11 @@
             reapTime="180s"/>
     </dataSource>
 
-    <!-- DB2 JDBC Driver Library -->
     <library id="db2DriverLib">
-        <!-- DB2 driver JARs should be placed in this directory -->
         <fileset dir="${server.config.dir}/lib" 
                  includes="db2jcc*.jar"/>
     </library>
+    -->
 
     <!-- Logging Configuration -->
     <logging 
