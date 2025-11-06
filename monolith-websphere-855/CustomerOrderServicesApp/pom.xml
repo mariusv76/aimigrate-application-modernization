@@ -87,8 +87,7 @@
           <serverXmlFile>${project.basedir}/../Deployment/server.xml</serverXmlFile>
           <bootstrapPropertiesFile>${project.basedir}/../Deployment/bootstrap.properties</bootstrapPropertiesFile>
           
-          <!-- Liberty installation -->
-          <installDirectory>${project.build.directory}/liberty</installDirectory>
+          <!-- Liberty runtime -->
           <runtimeArtifact>
             <groupId>io.openliberty</groupId>
             <artifactId>openliberty-runtime</artifactId>
