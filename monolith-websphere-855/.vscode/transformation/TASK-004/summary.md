@@ -250,7 +250,7 @@ JsonNode subCategory = subCategories.get(i);
 
 ## Next Steps (Post-TASK-004)
 
-1. **TASK-005:** Deploy to Open Liberty and execute integration tests
+1. **TASK-004.5:** Deploy to Open Liberty and execute integration tests
 2. **Validation:** Verify JSON serialization/deserialization behavior matches expected formats
 3. **Performance:** Monitor JSON processing performance in Liberty environment
 4. **Documentation:** Update deployment guides with Jackson 2.x configuration notes
