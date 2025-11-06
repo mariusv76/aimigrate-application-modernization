@@ -38,8 +38,9 @@ import org.pwte.example.exception.OrderModifiedException;
 import org.pwte.example.exception.ProductDoesNotExistException;
 import org.pwte.example.service.CustomerOrderServices;
 
-import com.ibm.json.java.JSONArray;
-import com.ibm.json.java.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Path("/Customer")
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
@@ -227,10 +228,11 @@ public class CustomerOrderResource {
 		try
 		{
 			AbstractCustomer customer = customerOrderServices.loadCustomer();
-			JSONObject data = new JSONObject();
-			JSONArray groups = new JSONArray();
+			ObjectMapper mapper = new ObjectMapper();
+			ObjectNode data = mapper.createObjectNode();
+			ArrayNode groups = mapper.createArrayNode();
 			
-			JSONObject name = new JSONObject();
+			ObjectNode name = mapper.createObjectNode();
 			name.put("name", "name");
 			name.put("label", "Name");
 			name.put("type", "string");
@@ -242,20 +244,20 @@ public class CustomerOrderResource {
 				data.put("type","business");
 				data.put("label","Business Customer");
 				
-				JSONObject desc = new JSONObject();
+				ObjectNode desc = mapper.createObjectNode();
 				desc.put("name", "description");
 				desc.put("label", "Description");
 				desc.put("type", "text");
 				groups.add(desc);
 				
-				JSONObject bp = new JSONObject();
+				ObjectNode bp = mapper.createObjectNode();
 				bp.put("name", "businessPartner");
 				bp.put("label", "Business Partner");
 				bp.put("type", "string");
 				bp.put("readonly", "true");
 				groups.add(bp);
 				
-				JSONObject vd = new JSONObject();
+				ObjectNode vd = mapper.createObjectNode();
 				vd.put("name", "volumeDiscount");
 				vd.put("label", "Volume Discount");
 				vd.put("type", "string");
@@ -268,14 +270,14 @@ public class CustomerOrderResource {
 				data.put("type","residential");
 				data.put("label","Residential Customer");
 				
-				JSONObject freq = new JSONObject();
+				ObjectNode freq = mapper.createObjectNode();
 				freq.put("name", "frequentCustomer");
 				freq.put("label", "Frequent Customer");
 				freq.put("type", "string");
 				freq.put("readonly", "true");
 				groups.add(freq);
 				
-				JSONObject hs = new JSONObject();
+				ObjectNode hs = mapper.createObjectNode();
 				hs.put("name", "householdSize");
 				hs.put("label", "Household Size");
 				hs.put("type", "number");
@@ -284,7 +286,7 @@ public class CustomerOrderResource {
 				groups.add(hs);
 				
 			}
-			data.put("formData",groups);
+			data.set("formData", groups);
 			return Response.ok(data).build();
 		}
 		catch (CustomerDoesNotExistException e) {
