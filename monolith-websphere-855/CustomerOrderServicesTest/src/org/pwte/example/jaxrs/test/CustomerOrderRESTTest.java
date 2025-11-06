@@ -46,11 +46,7 @@ public class CustomerOrderRESTTest extends TestCase {
 		javax.ws.rs.core.Application app = new javax.ws.rs.core.Application() {
 	        public Set<Class<?>> getClasses() {
 	            Set<Class<?>> classes = new HashSet<Class<?>>();
-	    		classes.add(org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider.class);
-	    		
-	    		classes.add(com.ibm.websphere.jaxrs.providers.json4j.JSON4JObjectProvider.class);
-	    		classes.add(com.ibm.websphere.jaxrs.providers.json4j.JSON4JArrayProvider.class);
-	    		classes.add(com.ibm.websphere.jaxrs.providers.json4j.JSON4JJAXBProvider.class);
+	    		classes.add(com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider.class);
 	    		
 	            return classes;
 	        }
