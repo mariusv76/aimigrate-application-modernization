@@ -10,8 +10,8 @@ import org.pwte.example.domain.Product;
 import org.pwte.example.exception.ProductDoesNotExistException;
 import org.pwte.example.service.ProductSearchService;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

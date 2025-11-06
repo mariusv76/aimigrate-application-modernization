@@ -10,9 +10,9 @@ import org.pwte.example.domain.*;
 import org.pwte.example.exception.*;
 import org.pwte.example.service.CustomerOrderServices;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.util.*;
 

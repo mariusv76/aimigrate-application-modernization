@@ -13,16 +13,96 @@
     <java.version>17</java.version>
     <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
+    <!-- Jakarta EE 10 versions -->
+    <jakarta.jakartaee-api.version>10.0.0</jakarta.jakartaee-api.version>
+    <jakarta.persistence-api.version>3.1.0</jakarta.persistence-api.version>
+    <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
+    <jakarta.ws.rs-api.version>3.1.0</jakarta.ws.rs-api.version>
+    <jakarta.ejb-api.version>4.0.1</jakarta.ejb-api.version>
+    <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
+    <jakarta.json-api.version>2.1.2</jakarta.json-api.version>
+    <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
+    
+    <!-- Testing framework versions -->
     <junit.version>5.10.1</junit.version>
     <mockito.version>5.8.0</mockito.version>
     <assertj.version>3.25.1</assertj.version>
     <rest-assured.version>5.4.0</rest-assured.version>
     <jacoco.version>0.8.11</jacoco.version>
     <surefire.version>3.2.3</surefire.version>
+    
+    <!-- Build plugin versions -->
+    <rewrite-maven-plugin.version>5.21.0</rewrite-maven-plugin.version>
+    <rewrite-migrate-java.version>2.26.1</rewrite-migrate-java.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
+      <!-- Jakarta EE 10 Platform -->
+      <dependency>
+        <groupId>jakarta.platform</groupId>
+        <artifactId>jakarta.jakartaee-api</artifactId>
+        <version>${jakarta.jakartaee-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      
+      <!-- Jakarta Persistence API (JPA) -->
+      <dependency>
+        <groupId>jakarta.persistence</groupId>
+        <artifactId>jakarta.persistence-api</artifactId>
+        <version>${jakarta.persistence-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      
+      <!-- Jakarta Servlet API -->
+      <dependency>
+        <groupId>jakarta.servlet</groupId>
+        <artifactId>jakarta.servlet-api</artifactId>
+        <version>${jakarta.servlet-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      
+      <!-- Jakarta RESTful Web Services API (JAX-RS) -->
+      <dependency>
+        <groupId>jakarta.ws.rs</groupId>
+        <artifactId>jakarta.ws.rs-api</artifactId>
+        <version>${jakarta.ws.rs-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      
+      <!-- Jakarta Enterprise Beans API (EJB) -->
+      <dependency>
+        <groupId>jakarta.ejb</groupId>
+        <artifactId>jakarta.ejb-api</artifactId>
+        <version>${jakarta.ejb-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      
+      <!-- Jakarta Validation API (Bean Validation) -->
+      <dependency>
+        <groupId>jakarta.validation</groupId>
+        <artifactId>jakarta.validation-api</artifactId>
+        <version>${jakarta.validation-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      
+      <!-- Jakarta JSON Processing API -->
+      <dependency>
+        <groupId>jakarta.json</groupId>
+        <artifactId>jakarta.json-api</artifactId>
+        <version>${jakarta.json-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      
+      <!-- Jakarta Annotations API -->
+      <dependency>
+        <groupId>jakarta.annotation</groupId>
+        <artifactId>jakarta.annotation-api</artifactId>
+        <version>${jakarta.annotation-api.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      
       <!-- JUnit 5 BOM -->
       <dependency>
         <groupId>org.junit</groupId>
@@ -123,15 +203,36 @@
             </execution>
           </executions>
         </plugin>
+        
+        <!-- OpenRewrite Maven Plugin for Jakarta EE migration -->
+        <plugin>
+          <groupId>org.openrewrite.maven</groupId>
+          <artifactId>rewrite-maven-plugin</artifactId>
+          <version>${rewrite-maven-plugin.version}</version>
+          <configuration>
+            <activeRecipes>
+              <recipe>org.openrewrite.java.migrate.jakarta.JavaxMigrationToJakarta</recipe>
+            </activeRecipes>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.openrewrite.recipe</groupId>
+              <artifactId>rewrite-migrate-java</artifactId>
+              <version>${rewrite-migrate-java.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
 
   <modules>
         <module>../CustomerOrderServices</module>
-        <module>../CustomerOrderServicesWeb</module>
-        <module>../CustomerOrderServicesTest</module>
-        <module>../CustomerOrderServicesApp</module>
+        <!-- Temporarily disabled - Contains WebSphere-specific dependencies (IBM JSON4J) -->
+        <!-- Will be migrated in TASK-004 (WebSphere to Open Liberty) -->
+        <!-- <module>../CustomerOrderServicesWeb</module> -->
+        <!-- <module>../CustomerOrderServicesTest</module> -->
+        <!-- <module>../CustomerOrderServicesApp</module> -->
   </modules>
 
 </project>

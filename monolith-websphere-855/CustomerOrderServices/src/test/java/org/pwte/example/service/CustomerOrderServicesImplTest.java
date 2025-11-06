@@ -10,9 +10,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.pwte.example.domain.*;
 import org.pwte.example.exception.*;
 
-import javax.ejb.SessionContext;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import jakarta.ejb.SessionContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.*;
@@ -109,11 +109,11 @@ class CustomerOrderServicesImplTest {
         // Arrange
         when(em.createQuery(anyString())).thenReturn(query);
         when(query.setParameter(anyString(), any())).thenReturn(query);
-        when(query.getSingleResult()).thenThrow(new javax.persistence.NoResultException());
+        when(query.getSingleResult()).thenThrow(new jakarta.persistence.NoResultException());
 
         // Act & Assert
         assertThatThrownBy(() -> service.loadCustomer())
-                .isInstanceOf(javax.persistence.NoResultException.class);
+                .isInstanceOf(jakarta.persistence.NoResultException.class);
     }
 
     // ===== openOrder Tests =====

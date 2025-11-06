@@ -2,7 +2,7 @@ package org.pwte.example.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class LineItemId implements Serializable {
