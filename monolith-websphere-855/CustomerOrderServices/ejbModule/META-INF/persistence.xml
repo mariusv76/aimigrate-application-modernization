@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="3.1" xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd">
-	<persistence-unit name="CustomerOrderServices">
-	
-		   <jta-data-source>jdbc/orderds</jta-data-source>
-		   <class>org.pwte.example.domain.Product</class>
-		   <class>org.pwte.example.domain.AbstractCustomer</class>
-		   <class>org.pwte.example.domain.BusinessCustomer</class>
-		   <class>org.pwte.example.domain.ResidentialCustomer</class>
-		   <class>org.pwte.example.domain.Order</class>
-		   <class>org.pwte.example.domain.LineItem</class>
-		   <class>org.pwte.example.domain.LineItemId</class>
-		   <class>org.pwte.example.domain.Category</class>
-		    <class>org.pwte.example.domain.Address</class>
-		   <properties>
-			<property name="openjpa.MaxFetchDepth" value="5" />
-			<property name="openjpa.jdbc.MappingDefaults"
-				    value="StoreEnumOrdinal=false" />
-			<property name="openjpa.jdbc.DBDictionary" value="db2" />
-		   </properties>
+<persistence version="3.0" 
+	xmlns="https://jakarta.ee/xml/ns/persistence" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence 
+		https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+	<persistence-unit name="CustomerOrderServices" transaction-type="JTA">
+		<jta-data-source>jdbc/orderds</jta-data-source>
+		<class>org.pwte.example.domain.Product</class>
+		<class>org.pwte.example.domain.AbstractCustomer</class>
+		<class>org.pwte.example.domain.BusinessCustomer</class>
+		<class>org.pwte.example.domain.ResidentialCustomer</class>
+		<class>org.pwte.example.domain.Order</class>
+		<class>org.pwte.example.domain.LineItem</class>
+		<class>org.pwte.example.domain.LineItemId</class>
+		<class>org.pwte.example.domain.Category</class>
+		<class>org.pwte.example.domain.Address</class>
+		<properties>
+			<!-- EclipseLink JPA Provider Properties -->
+			<property name="eclipselink.target-database" value="DB2" />
+			<property name="eclipselink.logging.level" value="INFO" />
+		</properties>
 	</persistence-unit>
 </persistence>

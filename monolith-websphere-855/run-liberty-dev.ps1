@@ -38,7 +38,7 @@ Write-Host "Press Ctrl+C to stop the server" -ForegroundColor Yellow
 Write-Host ""
 
 # Start Liberty in dev mode
-mvn liberty:dev
+C:\Users\mvorster\.maven\maven-3.9.11\bin\mvn.cmd liberty:dev
 
 # Return to original directory on exit
 Set-Location -Path $PSScriptRoot

@@ -97,7 +97,7 @@
           
           <!-- Application deployment -->
           <appsDirectory>apps</appsDirectory>
-          <looseApplication>true</looseApplication>
+          <looseApplication>false</looseApplication>
           <stripVersion>true</stripVersion>
           <installAppPackages>project</installAppPackages>
           
