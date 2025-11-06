@@ -1,25 +1,45 @@
 package org.pwte.example.service;
 
+import java.math.BigDecimal;
+import java.security.Principal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.pwte.example.domain.*;
-import org.pwte.example.exception.*;
+import org.pwte.example.domain.AbstractCustomer;
+import org.pwte.example.domain.Address;
+import org.pwte.example.domain.BusinessCustomer;
+import org.pwte.example.domain.LineItem;
+import org.pwte.example.domain.Order;
+import org.pwte.example.domain.Product;
+import org.pwte.example.domain.ResidentialCustomer;
+import org.pwte.example.exception.InvalidQuantityException;
+import org.pwte.example.exception.NoLineItemsException;
+import org.pwte.example.exception.OrderAlreadyOpenException;
+import org.pwte.example.exception.OrderModifiedException;
+import org.pwte.example.exception.OrderNotOpenException;
+import org.pwte.example.exception.ProductDoesNotExistException;
 
 import jakarta.ejb.SessionContext;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
-import java.math.BigDecimal;
-import java.security.Principal;
-import java.util.*;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
 
 /**
  * Comprehensive unit tests for CustomerOrderServicesImpl.
