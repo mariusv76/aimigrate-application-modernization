@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="Customer Order Services Open Liberty Server">
+
+    <!-- Enable Liberty features -->
+    <featureManager>
+        <!-- Jakarta EE 10 Full Platform -->
+        <feature>jakartaee-10.0</feature>
+        
+        <!-- MicroProfile 6.0 for cloud-native patterns -->
+        <feature>microProfile-6.0</feature>
+    </featureManager>
+
+    <!-- HTTP Endpoint Configuration -->
+    <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="${default.http.port}"
+                  httpsPort="${default.https.port}"
+                  host="*">
+        <httpOptions removeServerHeader="true"/>
+    </httpEndpoint>
+
+    <!-- Application Configuration -->
+    <application id="CustomerOrderServicesApp" 
+                 location="CustomerOrderServicesApp.ear"
+                 type="ear"
+                 name="CustomerOrderServicesApp">
+        <!-- Use parent-last classloading for application isolation -->
+        <classloader delegation="parentLast"/>
+    </application>
+
+    <!-- DB2 Datasource Configuration -->
+    <dataSource id="orderDS" 
+                jndiName="jdbc/orderds"
+                statementCacheSize="60"
+                connectionSharing="MatchCurrentState">
+        <!-- DB2 JDBC Driver Reference -->
+        <jdbcDriver libraryRef="db2DriverLib"/>
+        
+        <!-- DB2 Connection Properties -->
+        <properties.db2.jcc 
+            databaseName="${env.DB_NAME}"
+            serverName="${env.DB_HOST}"
+            portNumber="${env.DB_PORT}"
+            user="${env.DB_USER}"
+            password="${env.DB_PASSWORD}"
+            currentSchema="${env.DB_SCHEMA}"
+            progressiveStreaming="2"/>
+        
+        <!-- Connection Pool Configuration -->
+        <connectionManager 
+            maxPoolSize="20" 
+            minPoolSize="5"
+            connectionTimeout="30s"
+            maxIdleTime="1800s"
+            agedTimeout="3600s"
+            reapTime="180s"/>
+    </dataSource>
+
+    <!-- DB2 JDBC Driver Library -->
+    <library id="db2DriverLib">
+        <!-- DB2 driver JARs should be placed in this directory -->
+        <fileset dir="${server.config.dir}/lib" 
+                 includes="db2jcc*.jar"/>
+    </library>
+
+    <!-- Logging Configuration -->
+    <logging 
+        traceSpecification="*=info:org.pwte.example.*=all:com.ibm.ws.jpa.*=info"
+        maxFileSize="100"
+        maxFiles="10"
+        consoleLogLevel="INFO"
+        consoleFormat="simple"
+        consoleSource="message,trace,accessLog,ffdc,audit">
+    </logging>
+
+    <!-- Application Manager Configuration -->
+    <applicationManager autoExpand="true" startTimeout="300s"/>
+
+    <!-- HTTP Session Configuration -->
+    <httpSession 
+        cookieHttpOnly="true" 
+        cookieSecure="true"
+        cookieSameSite="Strict"
+        invalidationTimeout="30m"
+        securityIntegrationEnabled="false"/>
+
+    <!-- Web Container Configuration -->
+    <webContainer 
+        deferServletLoad="false"
+        disallowServeServletsByClassName="true"/>
+
+    <!-- CORS Configuration (for development/testing) -->
+    <cors 
+        domain="/"
+        allowedOrigins="http://localhost:*,https://localhost:*"
+        allowedMethods="GET,POST,PUT,DELETE,OPTIONS"
+        allowedHeaders="*"
+        maxAge="3600"/>
+
+    <!-- Security Configuration -->
+    <applicationSecurity/>
+    
+    <!-- Optional: Basic User Registry for testing -->
+    <!-- Uncomment for development if authentication is needed -->
+    <!--
+    <basicRegistry id="basic" realm="CustomerOrderRealm">
+        <user name="testuser" password="testpass"/>
+        <group name="SecureShopper">
+            <member name="testuser"/>
+        </group>
+    </basicRegistry>
+    -->
+
+    <!-- Optional: LTPA Configuration -->
+    <!-- Uncomment if using LTPA for SSO -->
+    <!--
+    <ltpa keysFileName="ltpa.keys"/>
+    -->
+
+</server>
