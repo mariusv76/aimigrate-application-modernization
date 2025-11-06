@@ -32,6 +32,9 @@
     <jacoco.version>0.8.11</jacoco.version>
     <surefire.version>3.2.3</surefire.version>
     
+    <!-- Jackson 2.17.0 for JSON processing -->
+    <jackson.version>2.17.0</jackson.version>
+    
     <!-- Build plugin versions -->
     <rewrite-maven-plugin.version>5.21.0</rewrite-maven-plugin.version>
     <rewrite-migrate-java.version>2.26.1</rewrite-migrate-java.version>
@@ -101,6 +104,38 @@
         <artifactId>jakarta.annotation-api</artifactId>
         <version>${jakarta.annotation-api.version}</version>
         <scope>provided</scope>
+      </dependency>
+      
+      <!-- Jackson 2.17.0 for JSON processing -->
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
+        <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
+        <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.jaxrs</groupId>
+        <artifactId>jackson-jaxrs-json-provider</artifactId>
+        <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-jsr310</artifactId>
+        <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.module</groupId>
+        <artifactId>jackson-module-jakarta-xmlbind-annotations</artifactId>
+        <version>${jackson.version}</version>
       </dependency>
       
       <!-- JUnit 5 BOM -->
@@ -227,12 +262,10 @@
   </build>
 
   <modules>
-        <module>../CustomerOrderServices</module>
-        <!-- Temporarily disabled - Contains WebSphere-specific dependencies (IBM JSON4J) -->
-        <!-- Will be migrated in TASK-004 (WebSphere to Open Liberty) -->
-        <!-- <module>../CustomerOrderServicesWeb</module> -->
-        <!-- <module>../CustomerOrderServicesTest</module> -->
-        <!-- <module>../CustomerOrderServicesApp</module> -->
+    <module>../CustomerOrderServices</module>
+    <module>../CustomerOrderServicesWeb</module>
+    <module>../CustomerOrderServicesTest</module>
+    <module>../CustomerOrderServicesApp</module>
   </modules>
 
 </project>

@@ -7,14 +7,15 @@ import javax.naming.NamingException;
 import org.apache.wink.client.Resource;
 import org.apache.wink.client.RestClient;
 
-import com.ibm.json.java.JSONArray;
-import com.ibm.json.java.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import junit.framework.TestCase;
 
 public class ProductRESTSearchTest extends TestCase {
 
 	private String urlPrefix;
+	private ObjectMapper mapper = new ObjectMapper();
 
 	public void setUp() throws Exception {
 		try {
@@ -26,52 +27,54 @@ public class ProductRESTSearchTest extends TestCase {
 		}
 	}
 
-	public void testProductResources() {
+	public void testProductResources() throws Exception {
 		RestClient client = new RestClient();
 		Resource resource = client.resource(urlPrefix + "jaxrs/Product/1");
 
-		JSONObject product = resource.accept("application/json").get(JSONObject.class);
-		assertEquals("Return of the Jedi", product.get("name"));
-		assertEquals(29.99, product.get("price"));
-		assertEquals(new Long(1), (Long) product.get("id"));
-		assertEquals("images/Return.jpg", product.get("image"));
-		assertEquals("Episode 6, Luke has the final confrontation with his father!", product.get("description"));
+		String json = resource.accept("application/json").get(String.class);
+		JsonNode product = mapper.readTree(json);
+		assertEquals("Return of the Jedi", product.get("name").asText());
+		assertEquals(29.99, product.get("price").asDouble());
+		assertEquals(1L, product.get("id").asLong());
+		assertEquals("images/Return.jpg", product.get("image").asText());
+		assertEquals("Episode 6, Luke has the final confrontation with his father!", product.get("description").asText());
 	}
 
-	public void testProductListByCategory() {
+	public void testProductListByCategory() throws Exception {
 		RestClient client = new RestClient();
 		Resource resource = client.resource(urlPrefix + "jaxrs/Product?categoryId=1");
 
-		JSONArray productList = resource.accept("application/json").get(JSONArray.class);
+		String json = resource.accept("application/json").get(String.class);
+		JsonNode productList = mapper.readTree(json);
 		for (int i = 0; i < productList.size(); i++) {
-			JSONObject product = (JSONObject) productList.get(i);
+			JsonNode product = productList.get(i);
 
-			switch (((Long) product.get("id")).intValue()) {
+			switch (product.get("id").asInt()) {
 			case 1: {
-				assertEquals("Return of the Jedi", product.get("name"));
-				assertEquals(29.99, product.get("price"));
-				assertEquals(new Long(1), product.get("id"));
-				assertEquals("images/Return.jpg", product.get("image"));
+				assertEquals("Return of the Jedi", product.get("name").asText());
+				assertEquals(29.99, product.get("price").asDouble());
+				assertEquals(1L, product.get("id").asLong());
+				assertEquals("images/Return.jpg", product.get("image").asText());
 				assertEquals("Episode 6, Luke has the final confrontation with his father!",
-						product.get("description"));
+						product.get("description").asText());
 				break;
 			}
 			case 2: {
-				assertEquals("Empire Strikes Back", product.get("name"));
-				assertEquals(29.99, product.get("price"));
-				assertEquals(new Long(2), product.get("id"));
-				assertEquals("images/Empire.jpg", product.get("image"));
+				assertEquals("Empire Strikes Back", product.get("name").asText());
+				assertEquals(29.99, product.get("price").asDouble());
+				assertEquals(2L, product.get("id").asLong());
+				assertEquals("images/Empire.jpg", product.get("image").asText());
 				assertEquals("Episode 5, Luke finds out a secret that will change his destiny",
-						product.get("description"));
+						product.get("description").asText());
 				break;
 			}
 			case 3: {
-				assertEquals("New Hope", product.get("name"));
-				assertEquals(29.99, product.get("price"));
-				assertEquals(new Long(3), product.get("id"));
-				assertEquals("images/NewHope.jpg", product.get("image"));
+				assertEquals("New Hope", product.get("name").asText());
+				assertEquals(29.99, product.get("price").asDouble());
+				assertEquals(3L, product.get("id").asLong());
+				assertEquals("images/NewHope.jpg", product.get("image").asText());
 				assertEquals("Episode 4, after years of oppression, a band of rebels fight for freedom",
-						product.get("description"));
+						product.get("description").asText());
 				break;
 			}
 			default: {
@@ -81,30 +84,31 @@ public class ProductRESTSearchTest extends TestCase {
 		}
 	}
 
-	public void testCategoryResource() {
+	public void testCategoryResource() throws Exception {
 		RestClient client = new RestClient();
 		Resource resource = client.resource(urlPrefix + "jaxrs/Category/1");
 
-		JSONObject category = resource.accept("application/json").get(JSONObject.class);
-		assertEquals("Entertainment", category.get("name"));
-		assertEquals(new Long(1), category.get("id"));
-		JSONArray subCategories = (JSONArray) category.get("subCategories");
+		String json = resource.accept("application/json").get(String.class);
+		JsonNode category = mapper.readTree(json);
+		assertEquals("Entertainment", category.get("name").asText());
+		assertEquals(1L, category.get("id").asLong());
+		JsonNode subCategories = category.get("subCategories");
 		for (int i = 0; i < subCategories.size(); i++) {
-			JSONObject subCategory = (JSONObject) subCategories.get(i);
-			switch (((Long) subCategory.get("id")).intValue()) {
+			JsonNode subCategory = subCategories.get(i);
+			switch (subCategory.get("id").asInt()) {
 			case 2: {
-				assertEquals(new Long(2), subCategory.get("id"));
-				assertEquals("Movies", subCategory.get("name"));
+				assertEquals(2L, subCategory.get("id").asLong());
+				assertEquals("Movies", subCategory.get("name").asText());
 				break;
 			}
 			case 3: {
-				assertEquals(new Long(3), subCategory.get("id"));
-				assertEquals("Music", subCategory.get("name"));
+				assertEquals(3L, subCategory.get("id").asLong());
+				assertEquals("Music", subCategory.get("name").asText());
 				break;
 			}
 			case 4: {
-				assertEquals(new Long(4), subCategory.get("id"));
-				assertEquals("Games", subCategory.get("name"));
+				assertEquals(4L, subCategory.get("id").asLong());
+				assertEquals("Games", subCategory.get("name").asText());
 				break;
 			}
 			default: {
@@ -114,34 +118,35 @@ public class ProductRESTSearchTest extends TestCase {
 		}
 	}
 
-	public void testCategoryListResources() {
+	public void testCategoryListResources() throws Exception {
 		RestClient client = new RestClient();
 		Resource resource = client.resource(urlPrefix + "jaxrs/Category");
 
-		JSONArray categories = resource.accept("application/json").get(JSONArray.class);
+		String json = resource.accept("application/json").get(String.class);
+		JsonNode categories = mapper.readTree(json);
 		for (int k = 0; k < categories.size(); k++) {
-			JSONObject category = (JSONObject) categories.get(k);
-			switch (((Long) category.get("id")).intValue()) {
+			JsonNode category = categories.get(k);
+			switch (category.get("id").asInt()) {
 			case 1: {
-				assertEquals("Entertainment", category.get("name"));
-				assertEquals(new Long(1), category.get("id"));
-				JSONArray subCategories = (JSONArray) category.get("subCategories");
+				assertEquals("Entertainment", category.get("name").asText());
+				assertEquals(1L, category.get("id").asLong());
+				JsonNode subCategories = category.get("subCategories");
 				for (int i = 0; i < subCategories.size(); i++) {
-					JSONObject subCategory = (JSONObject) subCategories.get(i);
-					switch (((Long) subCategory.get("id")).intValue()) {
+					JsonNode subCategory = subCategories.get(i);
+					switch (subCategory.get("id").asInt()) {
 					case 2: {
-						assertEquals(new Long(2), subCategory.get("id"));
-						assertEquals("Movies", subCategory.get("name"));
+						assertEquals(2L, subCategory.get("id").asLong());
+						assertEquals("Movies", subCategory.get("name").asText());
 						break;
 					}
 					case 3: {
-						assertEquals(new Long(3), subCategory.get("id"));
-						assertEquals("Music", subCategory.get("name"));
+						assertEquals(3L, subCategory.get("id").asLong());
+						assertEquals("Music", subCategory.get("name").asText());
 						break;
 					}
 					case 4: {
-						assertEquals(new Long(4), subCategory.get("id"));
-						assertEquals("Games", subCategory.get("name"));
+						assertEquals(4L, subCategory.get("id").asLong());
+						assertEquals("Games", subCategory.get("name").asText());
 						break;
 					}
 					default: {
@@ -152,25 +157,25 @@ public class ProductRESTSearchTest extends TestCase {
 				break;
 			}
 			case 10: {
-				assertEquals("Electronics", category.get("name"));
-				assertEquals(new Long(10), category.get("id"));
-				JSONArray subCategories = (JSONArray) category.get("subCategories");
+				assertEquals("Electronics", category.get("name").asText());
+				assertEquals(10L, category.get("id").asLong());
+				JsonNode subCategories = category.get("subCategories");
 				for (int i = 0; i < subCategories.size(); i++) {
-					JSONObject subCategory = (JSONObject) subCategories.get(i);
-					switch (((Long) subCategory.get("id")).intValue()) {
+					JsonNode subCategory = subCategories.get(i);
+					switch (subCategory.get("id").asInt()) {
 					case 12: {
-						assertEquals(new Long(12), subCategory.get("id"));
-						assertEquals("TV", subCategory.get("name"));
+						assertEquals(12L, subCategory.get("id").asLong());
+						assertEquals("TV", subCategory.get("name").asText());
 						break;
 					}
 					case 13: {
-						assertEquals(new Long(13), subCategory.get("id"));
-						assertEquals("Cellphones", subCategory.get("name"));
+						assertEquals(13L, subCategory.get("id").asLong());
+						assertEquals("Cellphones", subCategory.get("name").asText());
 						break;
 					}
 					case 14: {
-						assertEquals(new Long(14), subCategory.get("id"));
-						assertEquals("DVD Players", subCategory.get("name"));
+						assertEquals(14L, subCategory.get("id").asLong());
+						assertEquals("DVD Players", subCategory.get("name").asText());
 						break;
 					}
 					default: {
