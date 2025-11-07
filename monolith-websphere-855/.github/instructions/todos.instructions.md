@@ -11,9 +11,11 @@ applyTo: '**'
   _Merged TASK-004.5 into agent-test, created migration/task-005-database-migration branch_
 - [x] update-dependencies: Add PostgreSQL driver, remove DB2, replace OpenJPA with Hibernate 🔴
   _Added PostgreSQL 42.7.1 and Hibernate 6.4.0 to pom.xml, both scoped as provided_
-- [-] convert-sql-scripts: Convert all DB2 SQL scripts to PostgreSQL syntax 🔴
-- [ ] update-persistence-xml: Update persistence.xml for Hibernate and PostgreSQL 🔴
-- [ ] update-entities: Update JPA entity classes for Hibernate compatibility 🟡
+- [x] convert-sql-scripts: Convert all DB2 SQL scripts to PostgreSQL syntax 🔴
+  _Created 6 PostgreSQL SQL scripts: SERIAL for identity, TEXT for CLOB, IF EXISTS for drops_
+- [x] update-persistence-xml: Update persistence.xml for Hibernate and PostgreSQL 🔴
+  _Updated to Jakarta Persistence 3.0, added Hibernate provider, added all 8 entities, configured PostgreSQL dialect_
+- [-] update-entities: Update JPA entity classes for Hibernate compatibility 🟡
 - [ ] setup-database: Setup PostgreSQL database (local Docker or Azure) 🔴
 - [ ] execute-schema: Execute PostgreSQL schema creation scripts 🔴
 - [ ] migrate-data: Load sample data into PostgreSQL 🟡

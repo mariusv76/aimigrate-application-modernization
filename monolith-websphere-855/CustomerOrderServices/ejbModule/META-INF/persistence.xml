@@ -1,9 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.2" 
-	xmlns="http://xmlns.jcp.org/xml/ns/persistence" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence
+                                 https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+	
 	<persistence-unit name="CustomerOrderServices" transaction-type="JTA">
+		<!-- Hibernate JPA Provider -->
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		
+		<!-- JNDI DataSource -->
 		<jta-data-source>jdbc/orderds</jta-data-source>
+		
+		<!-- Entity Classes -->
+		<class>org.pwte.example.domain.AbstractCustomer</class>
+		<class>org.pwte.example.domain.BusinessCustomer</class>
+		<class>org.pwte.example.domain.ResidentialCustomer</class>
+		<class>org.pwte.example.domain.Order</class>
+		<class>org.pwte.example.domain.LineItem</class>
+		<class>org.pwte.example.domain.Product</class>
+		<class>org.pwte.example.domain.Category</class>
+		<class>org.pwte.example.domain.Address</class>
+		
+		<properties>
+			<!-- PostgreSQL Dialect -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+			
+			<!-- Schema validation (validate=check schema exists, update=auto-update schema) -->
+			<property name="hibernate.hbm2ddl.auto" value="validate"/>
+			
+			<!-- SQL Logging (disable in production) -->
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="true"/>
+			<property name="hibernate.use_sql_comments" value="true"/>
+			
+			<!-- JDBC Batch Settings -->
+			<property name="hibernate.jdbc.batch_size" value="20"/>
+			<property name="hibernate.order_inserts" value="true"/>
+			<property name="hibernate.order_updates" value="true"/>
+			
+			<!-- Statistics (disable in production) -->
+			<property name="hibernate.generate_statistics" value="false"/>
+		</properties>
 	</persistence-unit>
 </persistence>
