@@ -15,12 +15,17 @@ applyTo: '**'
   _Created 6 PostgreSQL SQL scripts: SERIAL for identity, TEXT for CLOB, IF EXISTS for drops_
 - [x] update-persistence-xml: Update persistence.xml for Hibernate and PostgreSQL 🔴
   _Updated to Jakarta Persistence 3.0, added Hibernate provider, added all 8 entities, configured PostgreSQL dialect_
-- [-] update-entities: Update JPA entity classes for Hibernate compatibility 🟡
-- [ ] setup-database: Setup PostgreSQL database (local Docker or Azure) 🔴
-- [ ] execute-schema: Execute PostgreSQL schema creation scripts 🔴
-- [ ] migrate-data: Load sample data into PostgreSQL 🟡
-- [ ] configure-datasource: Configure PostgreSQL datasource in Liberty server.xml 🔴
-- [ ] build-validation: Run mvn clean compile and verify all modules build 🔴
+- [x] update-entities: Update JPA entity classes for Hibernate compatibility 🟡
+  _Verified all entities use GenerationType.IDENTITY which is compatible with PostgreSQL SERIAL columns_
+- [x] setup-database: Setup PostgreSQL database (local Docker or Azure) 🔴
+  _Pulled postgres:16-alpine image, created postgres-customerorder container on port 5432_
+- [x] execute-schema: Execute PostgreSQL schema creation scripts 🔴
+  _Created 12 tables (customer, orders, product, category, line_item, etc.) using createOrderDB-postgres.sql_
+- [x] migrate-data: Load sample data into PostgreSQL 🟡
+  _Loaded 2 customers (business + residential) using sample data scripts_
+- [x] configure-datasource: Configure PostgreSQL datasource in Liberty server.xml 🔴
+  _Configured PostgreSQL datasource in server.xml, updated bootstrap.properties, copied driver to Liberty shared resources_
+- [-] build-validation: Run mvn clean compile and verify all modules build 🔴
 - [ ] test-validation: Run mvn test and verify database integration tests pass 🔴
 - [ ] manual-validation: Manually test CRUD operations through application 🟡
 - [ ] create-documentation: Generate summary, diffs, and final handoff report 🟡
