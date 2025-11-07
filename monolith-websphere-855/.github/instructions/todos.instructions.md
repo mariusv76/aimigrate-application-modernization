@@ -7,9 +7,11 @@ applyTo: '**'
   _Reviewed TASK-004.5 (85% complete, Open Liberty running, persistence.xml simplified), TASK-004.6 (Jackson issue non-blocking), analyzed current SQL scripts and entity classes_
 - [x] create-execution-plan: Create detailed execution plan with schema conversion strategy 🔴
   _Created comprehensive 500+ line plan covering: DB2→PostgreSQL conversions, Hibernate 6.4.0 migration, Docker setup strategy, 18h effort estimate_
-- [ ] setup-branch: Create migration/task-005-database-migration branch and initialize tracking 🔴
-- [ ] update-dependencies: Add PostgreSQL driver, remove DB2, replace OpenJPA with Hibernate 🔴
-- [ ] convert-sql-scripts: Convert all DB2 SQL scripts to PostgreSQL syntax 🔴
+- [x] setup-branch: Create migration/task-005-database-migration branch and initialize tracking 🔴
+  _Merged TASK-004.5 into agent-test, created migration/task-005-database-migration branch_
+- [x] update-dependencies: Add PostgreSQL driver, remove DB2, replace OpenJPA with Hibernate 🔴
+  _Added PostgreSQL 42.7.1 and Hibernate 6.4.0 to pom.xml, both scoped as provided_
+- [-] convert-sql-scripts: Convert all DB2 SQL scripts to PostgreSQL syntax 🔴
 - [ ] update-persistence-xml: Update persistence.xml for Hibernate and PostgreSQL 🔴
 - [ ] update-entities: Update JPA entity classes for Hibernate compatibility 🟡
 - [ ] setup-database: Setup PostgreSQL database (local Docker or Azure) 🔴
@@ -21,6 +23,10 @@ applyTo: '**'
 - [ ] manual-validation: Manually test CRUD operations through application 🟡
 - [ ] create-documentation: Generate summary, diffs, and final handoff report 🟡
 </todos>
+
+---
+applyTo: '**'
+---
 
 <!-- Auto-generated todo section -->
 <!-- Add your custom Copilot instructions below -->
