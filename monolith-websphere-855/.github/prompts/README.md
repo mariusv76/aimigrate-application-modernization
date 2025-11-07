@@ -29,8 +29,9 @@ No task prompts - manual setup and assessment
 | **TASK-003** | [TASK-003-jakarta-migration-prompt.md](TASK-003-jakarta-migration-prompt.md) | Migrate javax.* → jakarta.* namespace | 60h → 25h (AI) |
 | **TASK-004** | [TASK-004-jackson-upgrade-prompt.md](TASK-004-jackson-upgrade-prompt.md) | Upgrade Jackson & replace IBM JSON | 90h → 40h (AI) |
 | **TASK-004.5** | [TASK-004.5-open-liberty-deployment-prompt.md](TASK-004.5-open-liberty-deployment-prompt.md) | Deploy to Open Liberty & validate migration | 40h → 20h (AI) |
+| **TASK-004.6** | [TASK-004.6-jackson-classloading-fix-prompt.md](TASK-004.6-jackson-classloading-fix-prompt.md) | Fix Jackson classloading in Open Liberty | 4h → 2h (AI) |
 
-**Phase 1 Total:** 350h → 157h (55% reduction)
+**Phase 1 Total:** 354h → 159h (55% reduction)
 
 ### Phase 2: Azure Integration & Cloud-Native Patterns
 
@@ -53,9 +54,9 @@ No task prompts - manual setup and assessment
 
 | Metric | Manual | AI-Assisted | Savings |
 |--------|--------|-------------|---------|
-| **Total Hours** | 1,550h | 740h | 810h (52%) |
+| **Total Hours** | 1,554h | 742h | 812h (52%) |
 | **Timeline** | ~19 weeks | ~9 weeks | ~10 weeks |
-| **Cost** | $155,000 | $74,000 | $81,000 (52%) |
+| **Cost** | $155,400 | $74,200 | $81,200 (52%) |
 
 *Assumes 2 developers @ 40 hrs/week @ $100/hr*
 
