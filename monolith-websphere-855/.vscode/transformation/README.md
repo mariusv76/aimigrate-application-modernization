@@ -24,7 +24,7 @@ No task prompts - manual setup and assessment
 
 | Task | Prompt File | Description | Estimated Effort |
 |------|-------------|-------------|------------------|
-| **TASK-001** | [migration-prompt.md](migration-prompt.md) | Java 8 → Java 17 Upgrade | 40h → 20h (AI) |
+| **TASK-001** | [TASK-001-migration-prompt.md](TASK-001-migration-prompt.md) | Java 8 → Java 17 Upgrade | 40h → 20h (AI) |
 | **TASK-002** | [TASK-002-test-foundation-prompt.md](TASK-002-test-foundation-prompt.md) | Build comprehensive test suite (unit + integration) | 120h → 52h (AI) |
 | **TASK-003** | [TASK-003-jakarta-migration-prompt.md](TASK-003-jakarta-migration-prompt.md) | Migrate javax.* → jakarta.* namespace | 60h → 25h (AI) |
 | **TASK-004** | [TASK-004-jackson-upgrade-prompt.md](TASK-004-jackson-upgrade-prompt.md) | Upgrade Jackson & replace IBM JSON | 90h → 40h (AI) |
