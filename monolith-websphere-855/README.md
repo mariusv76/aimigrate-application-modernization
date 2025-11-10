@@ -1,4 +1,4 @@
-# Customer Order Services - JavaEE Enterprise Application - WebSphere 855 Repository
+# Customer Order Services Modernization (WebSphere 8.5.5 → Open Liberty / PostgreSQL)
 
 ## Application Overview
 
@@ -15,7 +15,54 @@ There are several components of the overall application architecture:
 - The application's user interface is exposed through the **CustomerOrderServicesWeb** component as well, in the form of a [Dojo Toolkit](#tbd)-based JavaScript application.  Delivering the user interface and business APIs in the same component is one major inhibitor our migration strategy will help to alleviate in the long-term.
 - Finally, there is an additional integration testing component, named **CustomerOrderServicesTest** that is built to quickly validate an application's build and deployment to a given application server.  This test component contains both **JPA** and **JAX-RS**-based tests.  
 
-## Build and deploy the application on WebSphere Application Server 855
+## Legacy (WebSphere 8.5.5) Instructions (Archived)
+
+The following legacy instructions are retained for historical reference. The active, modernized runtime now targets Open Liberty with PostgreSQL. For the current build and run workflow see the new section below: [Modernized Open Liberty + PostgreSQL Runtime](#modernized-open-liberty--postgresql-runtime).
+
+> NOTE: DB2 specific steps, WAS admin console deployment, and legacy security provisioning are no longer part of the primary path.
+
+## Modernized Open Liberty + PostgreSQL Runtime
+
+### Prerequisites
+
+- JDK 17 (see `build-environment.instructions.md` for exact path)
+- Maven 3.9.x
+- Docker (for local PostgreSQL container `postgres-customerorder`)
+
+### Quick Start
+
+```powershell
+# From workspace root
+$env:JAVA_HOME="C:\Users\mvorster\.jdk\jdk-17.0.16"
+docker ps --filter name=postgres-customerorder || docker run -d --name postgres-customerorder -e POSTGRES_USER=dbuser -e POSTGRES_PASSWORD=dbpass123 -e POSTGRES_DB=orderdb -p 5432:5432 postgres:16-alpine
+\Users\mvorster\.maven\maven-3.9.11\bin\mvn.cmd -f CustomerOrderServicesProject\pom.xml clean install -DskipTests
+cd CustomerOrderServicesApp
+\Users\mvorster\.maven\maven-3.9.11\bin\mvn.cmd liberty:dev
+```
+
+### Database Initialization (PostgreSQL)
+
+```powershell
+# Create schema & sample data
+docker exec postgres-customerorder psql -U dbuser -d orderdb -f /docker-entrypoint-initdb.d/createOrderDB-postgres.sql 2>$null || \
+   Get-Content .\Common\createOrderDB-postgres.sql | docker exec -i postgres-customerorder psql -U dbuser -d orderdb
+Get-Content .\Common\addBusinessCustomer-postgres.sql | docker exec -i postgres-customerorder psql -U dbuser -d orderdb
+Get-Content .\Common\addResidentialCustomer-postgres.sql | docker exec -i postgres-customerorder psql -U dbuser -d orderdb
+```
+
+### Validate Endpoint
+
+```powershell
+Invoke-WebRequest -Uri http://localhost:9080/CustomerOrderServicesWeb/api/customers/business -UseBasicParsing | Select-Object -ExpandProperty Content
+```
+
+### Migration Report
+
+See `TASK-005/MigrationTask005-Report.md` for detailed DB2 → PostgreSQL and Hibernate reversion notes.
+
+---
+
+## Build and deploy the application on WebSphere Application Server 855 (Legacy)
 
 ### 1. Prerequisites
 

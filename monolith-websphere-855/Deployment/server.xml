@@ -27,7 +27,34 @@
         <classloader delegation="parentLast"/>
     </application>
 
-    <!-- DB2 Datasource Configuration - DISABLED (no DB2 driver available) -->
+    <!-- PostgreSQL JDBC Library (driver copied to ${server.config.dir}/resources) -->
+    <library id="postgresLib">
+        <fileset dir="${server.config.dir}/resources" includes="postgresql-*.jar"/>
+    </library>
+
+    <!-- PostgreSQL DataSource Configuration -->
+    <dataSource id="orderds"
+                jndiName="jdbc/orderds"
+                statementCacheSize="60"
+                connectionSharing="MatchCurrentState">
+        <jdbcDriver libraryRef="postgresLib"/>
+        <!-- Use bootstrap.properties variables (not OS env) -->
+        <properties
+            serverName="${DB_HOST}"
+            portNumber="${DB_PORT}"
+            databaseName="${DB_NAME}"
+            user="${DB_USER}"
+            password="${DB_PASSWORD}"/>
+        <connectionManager
+            maxPoolSize="20"
+            minPoolSize="5"
+            connectionTimeout="30s"
+            maxIdleTime="1800s"
+            agedTimeout="3600s"
+            reapTime="180s"/>
+    </dataSource>
+
+    <!-- DB2 Datasource Configuration - DISABLED (migrated to PostgreSQL) -->
     <!--
     <dataSource id="orderDS" 
                 jndiName="jdbc/orderds"
@@ -93,17 +120,14 @@
 
     <!-- Security Configuration -->
     <applicationSecurity/>
-    
-    <!-- Optional: Basic User Registry for testing -->
-    <!-- Uncomment for development if authentication is needed -->
-    <!--
+
+    <!-- Basic User Registry re-enabled for EJB security requirements -->
     <basicRegistry id="basic" realm="CustomerOrderRealm">
         <user name="testuser" password="testpass"/>
         <group name="SecureShopper">
             <member name="testuser"/>
         </group>
     </basicRegistry>
-    -->
 
     <!-- Optional: LTPA Configuration -->
     <!-- Uncomment if using LTPA for SSO -->

@@ -1,28 +1,8 @@
 package org.pwte.example.app;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import jakarta.ws.rs.core.Application;
-
-import org.pwte.example.resources.CategoryResource;
-import org.pwte.example.resources.CustomerOrderResource;
-import org.pwte.example.resources.ProductResource;
-
-public class CustomerServicesApp extends Application {
-
-	@Override
-	public Set<Class<?>> getClasses() {
-
-		Set<Class<?>> classes = new HashSet<Class<?>>();
-
-		classes.add(CategoryResource.class);
-		classes.add(CustomerOrderResource.class);
-		classes.add(ProductResource.class);
-		
-		classes.add(com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider.class);
-
-		return classes;
-
-	}
+// Legacy bootstrap adjusted: now a minimal valid Jakarta Application subclass
+// WITHOUT @ApplicationPath so the annotated RestApplication remains authoritative.
+// Prevents ClassCastException during Resteasy initialization.
+public class CustomerServicesApp extends jakarta.ws.rs.core.Application {
+    // No providers or singletons registered here.
 }
