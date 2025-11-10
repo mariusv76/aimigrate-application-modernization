@@ -3,10 +3,12 @@ package org.pwte.example.service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.List;
 
 import org.pwte.example.domain.AbstractCustomer;
 import org.pwte.example.domain.Address;
 import org.pwte.example.domain.LineItem;
+import org.pwte.example.domain.BusinessCustomer;
 import org.pwte.example.domain.Order;
 import org.pwte.example.exception.CustomerDoesNotExistException;
 import org.pwte.example.exception.GeneralPersistenceException;
@@ -69,5 +71,10 @@ public interface CustomerOrderServices {
 	public Date getOrderHistoryLastUpdatedTime();
 	
 	public void updateInfo(HashMap<String, Object> info)throws GeneralPersistenceException, CustomerDoesNotExistException;
+
+	/**
+	 * List a sample of business customers (limited to 10) for diagnostics.
+	 */
+	public List<BusinessCustomer> listBusinessCustomers();
 
 }

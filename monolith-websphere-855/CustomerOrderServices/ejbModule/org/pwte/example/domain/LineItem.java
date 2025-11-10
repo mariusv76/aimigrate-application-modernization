@@ -3,6 +3,8 @@ package org.pwte.example.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,8 +17,6 @@ import jakarta.persistence.PreRemove;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "LINE_ITEM")
@@ -36,11 +36,11 @@ public class LineItem implements Serializable {
 	protected BigDecimal amount;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")
+	@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID", insertable = false, updatable = false)
 	protected Product product;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "ORDER_ID", referencedColumnName = "ORDER_ID")
+	@JoinColumn(name = "ORDER_ID", referencedColumnName = "ORDER_ID", insertable = false, updatable = false)
 	protected Order order;
 
 	@Transient

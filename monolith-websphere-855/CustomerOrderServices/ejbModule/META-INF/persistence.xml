@@ -6,8 +6,7 @@
              version="3.0">
 	
 	<persistence-unit name="CustomerOrderServices" transaction-type="JTA">
-		<!-- Hibernate JPA Provider -->
-		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<!-- Use Liberty default JPA provider (EclipseLink); removed explicit Hibernate provider to avoid classloading issues -->
 		
 		<!-- JNDI DataSource -->
 		<jta-data-source>jdbc/orderds</jta-data-source>

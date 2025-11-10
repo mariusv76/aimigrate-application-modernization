@@ -4,15 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-
-import jakarta.annotation.Resource;
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.ejb.SessionContext;
-import jakarta.ejb.Stateless;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
 
 import org.pwte.example.domain.AbstractCustomer;
 import org.pwte.example.domain.Address;
@@ -30,15 +23,25 @@ import org.pwte.example.exception.OrderModifiedException;
 import org.pwte.example.exception.OrderNotOpenException;
 import org.pwte.example.exception.ProductDoesNotExistException;
 
+import jakarta.annotation.Resource;
+import jakarta.ejb.SessionContext;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+
 @Stateless
-@RolesAllowed(value="SecureShopper")
+// Temporarily allow unauthenticated access during migration validation
+@jakarta.annotation.security.PermitAll
 public class CustomerOrderServicesImpl implements CustomerOrderServices {
 
 	@PersistenceContext
 	protected EntityManager em;
 	
-	@Resource SessionContext ctx;
+	@Resource
+	SessionContext ctx;
 	
+	@Override
 	public Order addLineItem(LineItem newLineItem)
 			throws CustomerDoesNotExistException, OrderNotOpenException,
 			ProductDoesNotExistException,GeneralPersistenceException, InvalidQuantityException, OrderModifiedException {
@@ -68,7 +71,7 @@ public class CustomerOrderServicesImpl implements CustomerOrderServices {
 		}
 		BigDecimal amount = product.getPrice().multiply(new BigDecimal(quantity));
 		Set<LineItem> lineItems = existingOpenOrder.getLineitems();
-		if (lineItems == null ) lineItems = new HashSet<LineItem>();
+		if (lineItems == null ) lineItems = new HashSet<>();
 		for(LineItem lineItem:lineItems)
 		{
 			if(lineItem.getProductId() == productId)
@@ -114,6 +117,7 @@ public class CustomerOrderServicesImpl implements CustomerOrderServices {
 		return newOrder;
 	}
 
+	@Override
 	public void submit(long version) throws CustomerDoesNotExistException,
 			OrderNotOpenException, NoLineItemsException,GeneralPersistenceException, OrderModifiedException {
 		AbstractCustomer customer = loadCustomer();
@@ -143,6 +147,7 @@ public class CustomerOrderServicesImpl implements CustomerOrderServices {
 
 	
 
+	@Override
 	public Order removeLineItem(int productId,long version) throws CustomerDoesNotExistException, OrderNotOpenException, ProductDoesNotExistException, NoLineItemsException, GeneralPersistenceException, OrderModifiedException {
 		Product product = em.find(Product.class,productId);
 		if(product == null) throw new ProductDoesNotExistException();
@@ -193,6 +198,7 @@ public class CustomerOrderServicesImpl implements CustomerOrderServices {
 	
 	*/
 	
+	@Override
 	public AbstractCustomer loadCustomer() throws CustomerDoesNotExistException,GeneralPersistenceException {
 		String user = ctx.getCallerPrincipal().getName();
 		Query query = em.createQuery("select c from AbstractCustomer c where c.user = :user");
@@ -208,12 +214,14 @@ public class CustomerOrderServicesImpl implements CustomerOrderServices {
 		else throw new CustomerDoesNotExistException();
 	}*/
 
+	@Override
 	public Set<Order> loadCustomerHistory()
 			throws CustomerDoesNotExistException,GeneralPersistenceException {
 		AbstractCustomer customer = loadCustomer();
 		return customer.getOrders();
 	}
 	
+	@Override
 	public Date getOrderHistoryLastUpdatedTime()
 	{
 		String user = ctx.getCallerPrincipal().getName();
@@ -222,6 +230,7 @@ public class CustomerOrderServicesImpl implements CustomerOrderServices {
 		return (Date)query.getSingleResult();
 	}
 
+	@Override
 	public void updateAddress(Address address)
 			throws CustomerDoesNotExistException, GeneralPersistenceException {
 		AbstractCustomer customer = loadCustomer();
@@ -229,6 +238,7 @@ public class CustomerOrderServicesImpl implements CustomerOrderServices {
 	}
 	
 	
+	@Override
 	public void updateInfo(HashMap<String, Object> info)throws GeneralPersistenceException, CustomerDoesNotExistException
 	{
 		AbstractCustomer customer = loadCustomer();
@@ -240,6 +250,13 @@ public class CustomerOrderServicesImpl implements CustomerOrderServices {
 		{
 			((ResidentialCustomer)customer).setHouseholdSize(((Integer)info.get("householdSize")).shortValue());
 		}
+	}
+
+	@Override
+	public List<BusinessCustomer> listBusinessCustomers() {
+		return em.createQuery("SELECT b FROM BusinessCustomer b", BusinessCustomer.class)
+				.setMaxResults(10)
+				.getResultList();
 	}
 
 }

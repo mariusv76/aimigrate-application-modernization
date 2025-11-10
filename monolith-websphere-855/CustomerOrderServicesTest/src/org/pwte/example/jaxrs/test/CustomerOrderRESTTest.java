@@ -1,14 +1,11 @@
 package org.pwte.example.jaxrs.test;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import jakarta.ws.rs.core.MediaType;
 
 import org.apache.wink.client.ClientConfig;
 import org.apache.wink.client.ClientResponse;
@@ -20,6 +17,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import jakarta.ws.rs.core.MediaType;
 import junit.framework.TestCase;
 
 public class CustomerOrderRESTTest extends TestCase {
@@ -43,17 +41,8 @@ public class CustomerOrderRESTTest extends TestCase {
 			urlTestPrefix = "http://localhost:9080/CustomerOrderServicesTest/";
 		}
 		
-		javax.ws.rs.core.Application app = new javax.ws.rs.core.Application() {
-	        public Set<Class<?>> getClasses() {
-	            Set<Class<?>> classes = new HashSet<Class<?>>();
-	    		classes.add(com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider.class);
-	    		
-	            return classes;
-	        }
-	    };
-	    
-	    clientConfig.applications(app);
-	    clientConfig2.applications(app);
+	    // Removed legacy javax.ws.rs Application and JacksonJsonProvider registration.
+	    // Liberty JSON-B/Jackson Jakarta provider handles JSON automatically.
 	    
 		clientConfig.setLoadWinkApplications(false);
 		clientConfig2.setLoadWinkApplications(false);

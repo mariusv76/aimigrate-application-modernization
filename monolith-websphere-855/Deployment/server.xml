@@ -27,26 +27,26 @@
         <classloader delegation="parentLast"/>
     </application>
 
-    <!-- PostgreSQL JDBC Library -->
-    <library id="postgresql-lib">
-        <fileset dir="${shared.resource.dir}/jdbc" includes="postgresql-*.jar"/>
+    <!-- PostgreSQL JDBC Library (driver copied to ${server.config.dir}/resources) -->
+    <library id="postgresLib">
+        <fileset dir="${server.config.dir}/resources" includes="postgresql-*.jar"/>
     </library>
 
     <!-- PostgreSQL DataSource Configuration -->
-    <dataSource id="orderDS" 
+    <dataSource id="orderds"
                 jndiName="jdbc/orderds"
                 statementCacheSize="60"
                 connectionSharing="MatchCurrentState">
-        <jdbcDriver libraryRef="postgresql-lib"/>
-        <properties.postgresql 
-            serverName="${env.DB_HOST}"
-            portNumber="${env.DB_PORT}"
-            databaseName="${env.DB_NAME}"
-            user="${env.DB_USER}"
-            password="${env.DB_PASSWORD}"
-            ssl="false"/>
-        <connectionManager 
-            maxPoolSize="20" 
+        <jdbcDriver libraryRef="postgresLib"/>
+        <!-- Use bootstrap.properties variables (not OS env) -->
+        <properties
+            serverName="${DB_HOST}"
+            portNumber="${DB_PORT}"
+            databaseName="${DB_NAME}"
+            user="${DB_USER}"
+            password="${DB_PASSWORD}"/>
+        <connectionManager
+            maxPoolSize="20"
             minPoolSize="5"
             connectionTimeout="30s"
             maxIdleTime="1800s"
@@ -121,9 +121,7 @@
     <!-- Security Configuration -->
     <applicationSecurity/>
     
-    <!-- Optional: Basic User Registry for testing -->
-    <!-- Uncomment for development if authentication is needed -->
-    <!--
+    <!-- Basic User Registry (commented out after diagnostics)
     <basicRegistry id="basic" realm="CustomerOrderRealm">
         <user name="testuser" password="testpass"/>
         <group name="SecureShopper">

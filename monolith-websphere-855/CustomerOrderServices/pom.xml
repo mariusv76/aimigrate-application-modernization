@@ -40,12 +40,11 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- Hibernate ORM for JPA -->
+    <!-- Hibernate ORM for JPA (must be packaged; remove provided scope) -->
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
       <version>6.4.0.Final</version>
-      <scope>provided</scope>
     </dependency>
 
     <!-- Test Dependencies -->
