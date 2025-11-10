@@ -7,14 +7,14 @@ applyTo: '**'
   _Reviewed TASK-004.5 (85% complete, Open Liberty running), TASK-004.6 (Jackson issue), analyzed SQL scripts and entities_
 - [x] create-execution-plan: Create detailed execution plan with schema conversion strategy 🔴
   _Created 619-line plan covering DB2→PostgreSQL conversions, Hibernate migration, Docker setup_
-- [x] setup-branch: Create migration/task-005-database-migration branch 🔴
+- [x] setup-branch: Create migration/task-005-database-migration branch 🟡
   _Merged TASK-004.5 to agent-test, created new branch for database migration_
 - [x] update-dependencies: Add PostgreSQL driver, remove DB2, replace OpenJPA with Hibernate 🔴
   _Added PostgreSQL 42.7.1 and Hibernate 6.4.0 to pom.xml, scoped as provided_
-- [x] convert-sql-scripts: Convert all DB2 SQL scripts to PostgreSQL syntax 🔴
+- [x] convert-sql-scripts: Convert all DB2 SQL scripts to PostgreSQL syntax 🟡
   _Created 6 PostgreSQL scripts: SERIAL for identity, TEXT for CLOB, IF EXISTS for drops_
 - [x] update-persistence-xml: Update persistence.xml for Hibernate and PostgreSQL 🔴
-  _Updated to Jakarta Persistence 3.0, added Hibernate provider, all 8 entities configured_
+  _Updated to Jakarta Persistence 3.0, added hibernate dialect properties_
 - [x] update-entities: Update JPA entity classes for Hibernate compatibility 🟡
   _All entities use GenerationType.IDENTITY compatible with PostgreSQL SERIAL_
 - [x] setup-database: Setup PostgreSQL database (Docker container) 🔴
@@ -25,13 +25,16 @@ applyTo: '**'
   _Loaded 2 customers (business + residential) via sample data scripts_
 - [x] configure-datasource: Configure PostgreSQL datasource in Liberty server.xml 🔴
   _Configured datasource, updated bootstrap.properties, copied driver to Liberty shared resources_
-- [x] build-validation: Run mvn clean compile and verify all modules build 🔴
+- [x] build-validation: Run mvn clean compile and verify all modules build 🟡
   _Maven BUILD SUCCESS with PostgreSQL and Hibernate dependencies_
 - [x] test-validation: Run mvn test and verify database integration tests 🟡
   _48 tests run, JNDI issues expected outside Liberty. Database verified: 12 tables, 2 customers_
-- [-] manual-validation: Deploy and test application with PostgreSQL in Liberty 🔴
-  _Liberty starts successfully but application modules not found. Issue: loose application XML points to outdated .m2 artifacts (pre-PostgreSQL build). Rebuild interrupted multiple times. Database migration itself is complete and validated. Application deployment blocked by stale build artifacts._
+- [x] manual-validation: Deploy and test application with PostgreSQL in Liberty 🔴
+  _Resolved module deployment by restoring basicRegistry; endpoint returns JSON business customer_
+- [-] switch-jpa-provider: Switch JPA provider explicitly to Hibernate and validate runtime 🔴
+  _Will add <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider> and clean properties_
 - [ ] create-documentation: Generate summary, diffs, and final handoff report 🟡
+  _Will include migration steps, configuration changes, verification results_
 </todos>
 
 ---

@@ -120,15 +120,14 @@
 
     <!-- Security Configuration -->
     <applicationSecurity/>
-    
-    <!-- Basic User Registry (commented out after diagnostics)
+
+    <!-- Basic User Registry re-enabled for EJB security requirements -->
     <basicRegistry id="basic" realm="CustomerOrderRealm">
         <user name="testuser" password="testpass"/>
         <group name="SecureShopper">
             <member name="testuser"/>
         </group>
     </basicRegistry>
-    -->
 
     <!-- Optional: LTPA Configuration -->
     <!-- Uncomment if using LTPA for SSO -->

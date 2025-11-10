@@ -6,7 +6,7 @@
              version="3.0">
 	
 	<persistence-unit name="CustomerOrderServices" transaction-type="JTA">
-		<!-- Use Liberty default JPA provider (EclipseLink); removed explicit Hibernate provider to avoid classloading issues -->
+		<!-- Reverted to container default EclipseLink provider (omit explicit provider) -->
 		
 		<!-- JNDI DataSource -->
 		<jta-data-source>jdbc/orderds</jta-data-source>
@@ -22,24 +22,9 @@
 		<class>org.pwte.example.domain.Address</class>
 		
 		<properties>
-			<!-- PostgreSQL Dialect -->
+			<!-- Retain dialect hint (EclipseLink will ignore Hibernate-specific props) -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-			
-			<!-- Schema validation (validate=check schema exists, update=auto-update schema) -->
 			<property name="hibernate.hbm2ddl.auto" value="validate"/>
-			
-			<!-- SQL Logging (disable in production) -->
-			<property name="hibernate.show_sql" value="true"/>
-			<property name="hibernate.format_sql" value="true"/>
-			<property name="hibernate.use_sql_comments" value="true"/>
-			
-			<!-- JDBC Batch Settings -->
-			<property name="hibernate.jdbc.batch_size" value="20"/>
-			<property name="hibernate.order_inserts" value="true"/>
-			<property name="hibernate.order_updates" value="true"/>
-			
-			<!-- Statistics (disable in production) -->
-			<property name="hibernate.generate_statistics" value="false"/>
 		</properties>
 	</persistence-unit>
 </persistence>
