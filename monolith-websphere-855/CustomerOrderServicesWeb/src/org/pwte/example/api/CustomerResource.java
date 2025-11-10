@@ -10,6 +10,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.metrics.annotation.Counted;
 
 @Path("/customers")
 @Produces(MediaType.APPLICATION_JSON)
@@ -20,6 +21,7 @@ public class CustomerResource {
 
     @GET
     @Path("/business")
+    @Counted(name = "businessCustomersRequests", description = "Number of business customer list requests")
     public Response getBusinessCustomers() {
         try {
             List<BusinessCustomer> entities = services.listBusinessCustomers();

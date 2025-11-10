@@ -8,6 +8,9 @@
         
         <!-- MicroProfile 6.0 for cloud-native patterns -->
         <feature>microProfile-6.0</feature>
+        <!-- Explicit health + metrics endpoints -->
+        <feature>mpHealth-3.0</feature>
+        <feature>mpMetrics-5.0</feature>
     </featureManager>
 
     <!-- HTTP Endpoint Configuration -->
