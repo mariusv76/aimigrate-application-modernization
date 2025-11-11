@@ -77,7 +77,21 @@ module containerApps './modules/containerapps.bicep' = if (useContainerApps) {
   }
 }
 
-// TODO: Add Managed Identity role assignments once identity is created
+// Role assignments for Container App managed identity
+module roleAssignments './modules/roleassignments.bicep' = if (useContainerApps) {
+  name: 'roleAssignmentsDeploy'
+  params: {
+    principalId: containerApps.outputs.containerAppPrincipalId
+    keyVaultName: kvName
+    appConfigName: appConfigName
+    acrName: acrName
+    location: location
+  }
+  dependsOn: [
+    keyVault
+    appConfig
+  ]
+}
 
 @description('Outputs for wiring other systems')
 output keyVaultName string = kvName

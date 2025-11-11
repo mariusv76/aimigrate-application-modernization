@@ -195,9 +195,21 @@ None currently.
   - Verified row counts match source database
 - [x] Update App Configuration with Azure PostgreSQL FQDN (db:host = psql-customerorder-dev.postgres.database.azure.com)
 - [x] Configure role assignments for Container App managed identity
-  - Principal ID: a939a1c6-4627-43a3-9e72-c8a655b39c88
-  - Granted Key Vault Secrets User role
-  - Granted App Configuration Data Reader role
+  - **Implementation**: Automated via Bicep infrastructure-as-code
+  - Module: `infra/modules/roleassignments.bicep`
+  - Deployment: Integrated into `infra/main.bicep`
+  - Three role assignments:
+    * Key Vault Secrets User (Role ID: 4633458b-17de-408a-b874-1327992a3a45)
+    * App Configuration Data Reader (Role ID: 516239f1-63e1-4d78-a4de-a74fb236a071)
+    * AcrPull (Role ID: 7f951dda-4ed3-4680-a7ca-43fe172d538d)
+  - Deployment script: `infra/deploy.ps1`
+  - Documentation: `.vscode/transformation/TASK-006/automated-deployment-guide.md`
+  - **Key Features**:
+    - Idempotent using `guid()` for deterministic names
+    - Conditional deployment (only when useContainerApps=true)
+    - Dynamic principal ID from Container Apps module output
+    - Resource-scoped (not resource group level)
+    - CI/CD pipeline ready
   - Granted AcrPull role
 - [x] Build and push Docker image to ACR
   - Tagged: customerorderdevacr.azurecr.io/customerorder-api:latest
@@ -223,7 +235,8 @@ None currently.
 ## Next Steps
 1. ~~Update Dockerfile with OpenTelemetry Java agent~~ ✅ DONE
 2. ~~Build and test Docker image locally~~ ✅ DONE
-3. Configure managed identity role assignments (Key Vault, App Configuration, ACR)
-4. Build and push Docker image to ACR
-5. Deploy and validate application in Azure Container Apps
+3. ~~Configure managed identity role assignments (Key Vault, App Configuration, ACR)~~ ✅ AUTOMATED IN BICEP
+4. ~~Build and push Docker image to ACR~~ ✅ DONE
+5. ~~Deploy and validate application in Azure Container Apps~~ ✅ DONE
 6. Verify telemetry flowing to Application Insights
+7. Complete Phase 5 documentation
