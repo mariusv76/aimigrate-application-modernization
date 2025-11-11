@@ -47,6 +47,27 @@
       <artifactId>microprofile-metrics-api</artifactId>
       <scope>provided</scope>
     </dependency>
+    
+    <!-- MicroProfile Config API -->
+    <dependency>
+      <groupId>org.eclipse.microprofile.config</groupId>
+      <artifactId>microprofile-config-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Azure SDK dependencies for Key Vault and App Configuration integration -->
+    <dependency>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-identity</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-security-keyvault-secrets</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-data-appconfiguration</artifactId>
+    </dependency>
 
     <!-- Test Dependencies -->
     <dependency>

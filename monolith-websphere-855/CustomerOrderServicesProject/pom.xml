@@ -35,6 +35,9 @@
     <!-- Jackson 2.17.0 for JSON processing -->
     <jackson.version>2.17.0</jackson.version>
     
+    <!-- Azure SDK versions -->
+    <azure-sdk-bom.version>1.2.28</azure-sdk-bom.version>
+    
     <!-- Build plugin versions -->
     <rewrite-maven-plugin.version>5.21.0</rewrite-maven-plugin.version>
     <rewrite-migrate-java.version>2.26.1</rewrite-migrate-java.version>
@@ -42,6 +45,15 @@
 
   <dependencyManagement>
     <dependencies>
+      <!-- Azure SDK BOM for version management -->
+      <dependency>
+        <groupId>com.azure</groupId>
+        <artifactId>azure-sdk-bom</artifactId>
+        <version>${azure-sdk-bom.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      
       <!-- MicroProfile BOM to manage MicroProfile API versions (Health, Metrics, etc.) -->
       <dependency>
         <groupId>org.eclipse.microprofile</groupId>
