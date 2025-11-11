@@ -45,6 +45,9 @@ Status: In Progress - Phase 2 Complete
 | 2025-11-11 14:00 | ConfigSource Impl | Implemented KeyVaultConfigSource with caching and managed identity |
 | 2025-11-11 14:15 | ConfigSource Impl | Implemented AppConfigurationConfigSource with dynamic refresh |
 | 2025-11-11 14:30 | Secrets Stored | Added db-password to Key Vault, db config to App Configuration |
+| 2025-11-11 14:45 | Progress Updated | Documented Phase 1 & 2 completion, Spring Boot vs MicroProfile decision |
+| 2025-11-11 15:00 | Entra ID App Registration | Created customerorder-api-dev with Orders.Read/Orders.Write roles |
+| 2025-11-11 15:15 | JWT Config Updated | Updated microprofile-config.properties with actual tenant/client IDs |
 
 ## Blockers / Risks
 None currently.
@@ -115,10 +118,17 @@ None currently.
   - telemetry:sampling = 0.1
 
 ### Phase 3: Authentication & Authorization 🔄 IN PROGRESS
-- [ ] Create Entra ID App Registration
-- [ ] Configure app roles (Orders.Read, Orders.Write)
-- [ ] Update microprofile-config.properties with Tenant/Client IDs
+- [x] Create Entra ID App Registration
+- [x] Configure app roles (Orders.Read, Orders.Write)
+- [x] Update microprofile-config.properties with Tenant/Client IDs
 - [ ] Migrate @RolesAllowed annotations
+
+**Entra ID Details**:
+- App Registration: customerorder-api-dev
+- Client ID: 3d3c655f-43b5-4130-816c-74493287e79b
+- Tenant ID: 89cea9ee-73b0-4f74-9541-b8153dff5960
+- App Roles: Orders.Read, Orders.Write
+- Documentation: `.vscode/transformation/TASK-006/entra-id-registration.md`
 
 ### Phase 4: Observability & Deployment 📋 PENDING
 - [ ] Update Dockerfile with OpenTelemetry agent
@@ -132,7 +142,6 @@ None currently.
 - [ ] Deployment validation checklist
 
 ## Next Steps
-1. Create Entra ID App Registration (customerorder-api-dev)
-2. Configure app roles for Orders.Read and Orders.Write
-3. Update microprofile-config.properties with actual values
-4. Migrate security annotations from @RolesAllowed("SecureShopper")
+1. Migrate security annotations from @RolesAllowed("SecureShopper") to Orders.Read/Orders.Write
+2. Update Dockerfile with OpenTelemetry Java agent
+3. Configure managed identity role assignments (Key Vault, App Configuration, ACR)

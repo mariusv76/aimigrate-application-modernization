@@ -22,10 +22,10 @@
 - [x] Store database password in Key Vault
 - [x] Store configuration values in App Configuration (db host/port/name, telemetry sampling)
 
-## Phase 3: Authentication & Authorization 🔄
-- [ ] Create Entra ID App Registration (customerorder-api-dev)
-- [ ] Configure app roles (Orders.Read, Orders.Write)
-- [ ] Update microprofile-config.properties with actual Tenant ID and Client ID
+## Phase 3: Authentication & Authorization ✅
+- [x] Create Entra ID App Registration (customerorder-api-dev)
+- [x] Configure app roles (Orders.Read, Orders.Write)
+- [x] Update microprofile-config.properties with actual Tenant ID and Client ID
 - [ ] Migrate @RolesAllowed("SecureShopper") to @RolesAllowed("Orders.Read"/"Orders.Write")
 - [ ] Test JWT validation with Entra ID tokens
 

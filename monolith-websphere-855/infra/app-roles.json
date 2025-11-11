@@ -1,0 +1,16 @@
+[
+  {
+    "allowedMemberTypes": ["User", "Application"],
+    "description": "Read customer orders",
+    "displayName": "Orders.Read",
+    "isEnabled": true,
+    "value": "Orders.Read"
+  },
+  {
+    "allowedMemberTypes": ["User", "Application"],
+    "description": "Create and modify customer orders",
+    "displayName": "Orders.Write",
+    "isEnabled": true,
+    "value": "Orders.Write"
+  }
+]
