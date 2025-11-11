@@ -2,7 +2,7 @@
 
 Start Date: 2025-11-11
 Branch: migration/task-006-azure-integration
-Status: In Progress - Phase 2 Complete
+Status: In Progress - Phase 4 (Observability) In Progress
 
 ## Milestones
 - [x] Draft execution plan created (`.vscode/transformation/TASK-006/plan.md`)
@@ -20,11 +20,15 @@ Status: In Progress - Phase 2 Complete
 - [x] KeyVaultConfigSource implemented
 - [x] AppConfigurationConfigSource implemented
 - [x] ConfigSource implementations registered
-- [ ] Entra ID app registration created
-- [ ] Security annotations migrated
-- [ ] OpenTelemetry agent added to Docker image
+- [x] Entra ID app registration created
+- [x] Security annotations verified (none exist - infrastructure ready)
+- [x] OpenTelemetry agent added to Docker image
+- [x] Docker image built and tested locally
+- [x] Local testing validated (PostgreSQL + REST API + OTEL)
+- [x] Azure PostgreSQL Flexible Server provisioned (psql-customerorder-dev)
+- [x] Database schema and data migrated to Azure PostgreSQL
 - [ ] Managed identity role assignments configured
-- [ ] Docker image built and pushed to ACR
+- [ ] Docker image pushed to ACR
 - [ ] Container App updated with new image
 - [ ] Deployment validated
 - [ ] Telemetry validated in Application Insights
@@ -49,6 +53,18 @@ Status: In Progress - Phase 2 Complete
 | 2025-11-11 15:00 | Entra ID App Registration | Created customerorder-api-dev with Orders.Read/Orders.Write roles |
 | 2025-11-11 15:15 | JWT Config Updated | Updated microprofile-config.properties with actual tenant/client IDs |
 | 2025-11-11 15:20 | Security Annotations | Verified no existing @RolesAllowed annotations; security layer to be added fresh |
+| 2025-11-11 16:00 | Dockerfile Created | Created Dockerfile.liberty with OpenTelemetry agent integration |
+| 2025-11-11 16:10 | Docker Compose Added | Created docker-compose.yml for local testing |
+| 2025-11-11 16:15 | Dockerignore Added | Created .dockerignore to optimize build |
+| 2025-11-11 16:30 | Dockerfile Fixed | Corrected Liberty base image tag, PostgreSQL driver location to /config/resources/ |
+| 2025-11-11 16:45 | Bootstrap Properties | Updated bootstrap.properties to use ${env.VAR} substitution for database config |
+| 2025-11-11 17:00 | Docker Network | Created custom network for container DNS resolution between app and PostgreSQL |
+| 2025-11-11 17:15 | Local Testing Complete | Successfully validated: Liberty startup, DB connection, REST API (/api/customers/business), OTEL agent loaded |
+| 2025-11-11 17:30 | Azure PostgreSQL | Provisioned Azure Database for PostgreSQL Flexible Server (psql-customerorder-dev.postgres.database.azure.com) |
+| 2025-11-11 17:35 | Database Password | Generated strong password, stored in Key Vault as db-password secret |
+| 2025-11-11 17:40 | Firewall Rule | Added firewall rule to allow connection from development IP (77.173.178.210) |
+| 2025-11-11 17:45 | Schema Migration | Exported schema from local PostgreSQL, imported to Azure PostgreSQL (12 tables) |
+| 2025-11-11 17:50 | Data Migration | Migrated 2 customers, 2 suppliers to Azure PostgreSQL using pg_dump/restore |
 
 ## Blockers / Risks
 None currently.
@@ -99,6 +115,7 @@ None currently.
   - Container Registry: customerorderdevacr.azurecr.io
   - Container Apps Environment: cae-customerorder-dev
   - Container App: ca-customerorder-dev
+  - PostgreSQL Flexible Server: psql-customerorder-dev (Standard_B2s, 32GB storage, PostgreSQL 16)
 
 ### Phase 2: SDK Integration & Configuration ✅ COMPLETE
 - Azure SDK dependencies added (azure-identity, keyvault-secrets, appconfiguration)
@@ -111,9 +128,9 @@ None currently.
   - Label filtering by environment
   - Full refresh on cache expiration
 - ConfigSource implementations registered via ServiceLoader
-- Secrets stored in Key Vault: db-password
+- Secrets stored in Key Vault: db-password (32-character secure password for Azure PostgreSQL)
 - Configuration stored in App Configuration:
-  - db:host = postgres-customerorder
+  - db:host = psql-customerorder-dev.postgres.database.azure.com
   - db:port = 5432
   - db:name = orderdb
   - telemetry:sampling = 0.1
@@ -133,8 +150,46 @@ None currently.
 
 **Note**: Application currently has no @RolesAllowed security annotations. JWT validation infrastructure is configured and ready for future security implementation.
 
-### Phase 4: Observability & Deployment 📋 PENDING
-- [ ] Update Dockerfile with OpenTelemetry agent
+### Phase 4: Observability & Deployment 🔄 IN PROGRESS
+
+- [x] Update Dockerfile with OpenTelemetry agent
+  - Created `Deployment/Dockerfile.liberty` with multi-stage build
+  - Stage 1: Build application with Maven
+  - Stage 2: Download OpenTelemetry Java agent 2.10.0
+  - Stage 3: Runtime with Open Liberty base image (full-java17-openj9-ubi)
+  - Configured OTEL environment variables
+  - Added health check endpoint
+  - Non-root user (1001)
+  - Fixed PostgreSQL driver location (/config/resources/)
+- [x] Create Docker Compose for local testing
+  - PostgreSQL service with init scripts
+  - Application service with environment variables
+  - Health checks for both services
+- [x] Create .dockerignore for optimized builds
+- [x] Fix bootstrap.properties for environment variable substitution
+  - Changed from hardcoded values to ${env.VAR} syntax
+  - Allows runtime configuration via Docker environment variables
+- [x] Local Docker testing complete
+  - Created custom Docker network (customerorder-net) for DNS resolution
+  - Validated Liberty startup (55 seconds)
+  - Validated database connectivity (PostgreSQL on port 5432)
+  - Validated REST API endpoints (/CustomerOrderServicesWeb/api/customers/business)
+  - Verified OpenTelemetry agent loaded successfully (version 2.10.0)
+  - Confirmed MicroProfile Telemetry feature active
+- [x] Provision Azure Database for PostgreSQL Flexible Server
+  - Created psql-customerorder-dev.postgres.database.azure.com
+  - SKU: Standard_B2s (Burstable, 2 vCPU, 4GB RAM)
+  - Storage: 32 GB with auto-grow enabled
+  - PostgreSQL version 16
+  - Backup retention: 7 days
+  - Firewall configured for Azure services and development IP
+- [x] Migrate database from local PostgreSQL to Azure
+  - Exported schema (12 tables) using pg_dump
+  - Imported schema to Azure PostgreSQL
+  - Exported data using pg_dump with column inserts
+  - Imported 2 customers, 2 suppliers successfully
+  - Verified row counts match source database
+- [x] Update App Configuration with Azure PostgreSQL FQDN (db:host = psql-customerorder-dev.postgres.database.azure.com)
 - [ ] Configure role assignments for Container App managed identity
 - [ ] Build and push Docker image to ACR
 - [ ] Update Container App with new image
@@ -145,7 +200,9 @@ None currently.
 - [ ] Deployment validation checklist
 
 ## Next Steps
-1. Update Dockerfile with OpenTelemetry Java agent
-2. Configure managed identity role assignments (Key Vault, App Configuration, ACR)
-3. Build and push Docker image to ACR
-4. Deploy and validate application
+1. ~~Update Dockerfile with OpenTelemetry Java agent~~ ✅ DONE
+2. ~~Build and test Docker image locally~~ ✅ DONE
+3. Configure managed identity role assignments (Key Vault, App Configuration, ACR)
+4. Build and push Docker image to ACR
+5. Deploy and validate application in Azure Container Apps
+6. Verify telemetry flowing to Application Insights

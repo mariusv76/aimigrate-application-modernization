@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "serverName": {
+      "value": "psql-customerorder-dev"
+    },
+    "location": {
+      "value": "northeurope"
+    },
+    "postgresVersion": {
+      "value": "16"
+    },
+    "administratorLogin": {
+      "value": "dbadmin"
+    },
+    "databaseName": {
+      "value": "orderdb"
+    },
+    "skuName": {
+      "value": "Standard_B2s"
+    },
+    "skuTier": {
+      "value": "Burstable"
+    },
+    "storageSizeGB": {
+      "value": 32
+    },
+    "backupRetentionDays": {
+      "value": 7
+    },
+    "geoRedundantBackup": {
+      "value": "Disabled"
+    },
+    "highAvailabilityMode": {
+      "value": "Disabled"
+    },
+    "tags": {
+      "value": {
+        "Environment": "Development",
+        "Project": "CustomerOrder",
+        "Task": "TASK-006"
+      }
+    }
+  }
+}

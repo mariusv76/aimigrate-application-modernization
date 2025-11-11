@@ -1,0 +1,80 @@
+# Multi-stage build for Customer Order Services on Open Liberty with OpenTelemetry
+# Stage 1: Build application
+FROM maven:3.9-eclipse-temurin-17 AS builder
+
+WORKDIR /build
+
+# Copy project files
+COPY CustomerOrderServicesProject/pom.xml ./CustomerOrderServicesProject/
+COPY CustomerOrderServices/ ./CustomerOrderServices/
+COPY CustomerOrderServicesWeb/ ./CustomerOrderServicesWeb/
+COPY CustomerOrderServicesTest/ ./CustomerOrderServicesTest/
+COPY CustomerOrderServicesApp/ ./CustomerOrderServicesApp/
+COPY Common/ ./Common/
+
+# Build the application
+WORKDIR /build/CustomerOrderServicesProject
+RUN mvn clean package -DskipTests
+
+# Stage 2: Download OpenTelemetry Java Agent
+FROM eclipse-temurin:17-jre-alpine AS otel-downloader
+
+ARG OTEL_VERSION=2.10.0
+
+WORKDIR /otel
+
+# Download OpenTelemetry Java agent
+RUN apk add --no-cache curl && \
+    curl -L -o opentelemetry-javaagent.jar \
+    "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v${OTEL_VERSION}/opentelemetry-javaagent.jar"
+
+# Stage 3: Runtime with Open Liberty
+FROM icr.io/appcafe/open-liberty:full-java17-openj9-ubi
+
+# Copy OpenTelemetry agent
+COPY --from=otel-downloader --chown=1001:0 /otel/opentelemetry-javaagent.jar /opt/otel/opentelemetry-javaagent.jar
+
+# Copy Liberty server configuration
+COPY --chown=1001:0 Deployment/server.xml /config/server.xml
+COPY --chown=1001:0 Deployment/bootstrap.properties /config/bootstrap.properties
+
+# Copy application EAR from builder
+COPY --from=builder --chown=1001:0 \
+    /build/CustomerOrderServicesApp/target/CustomerOrderServicesApp-0.1.0-SNAPSHOT.ear \
+    /config/apps/CustomerOrderServicesApp.ear
+
+# Copy PostgreSQL JDBC driver to server config resources
+RUN mkdir -p /config/resources && \
+    curl -L -o /config/resources/postgresql-42.7.1.jar \
+    "https://jdbc.postgresql.org/download/postgresql-42.7.1.jar"
+
+# Environment variables for OpenTelemetry
+ENV OTEL_JAVAAGENT_ENABLED=true \
+    OTEL_SERVICE_NAME=customerorder-api \
+    OTEL_TRACES_SAMPLER=parentbased_traceidratio \
+    OTEL_TRACES_SAMPLER_ARG=0.1 \
+    OTEL_METRICS_EXPORTER=otlp \
+    OTEL_LOGS_EXPORTER=otlp \
+    OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+
+# Azure-specific environment variables (will be set by Container Apps)
+# APPLICATIONINSIGHTS_CONNECTION_STRING - set via Container App configuration
+# AZURE_KEYVAULT_ENDPOINT - set via Container App configuration  
+# AZURE_APPCONFIGURATION_ENDPOINT - set via Container App configuration
+# AZURE_ENVIRONMENT - set via Container App configuration (e.g., "dev")
+
+# Configure JVM options to include OpenTelemetry agent
+ENV JVM_ARGS="-javaagent:/opt/otel/opentelemetry-javaagent.jar"
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=3 \
+    CMD curl -f http://localhost:9080/health || exit 1
+
+# Expose application port
+EXPOSE 9080 9443
+
+# Run as non-root user
+USER 1001
+
+# Use Liberty's run script
+CMD ["/opt/ol/wlp/bin/server", "run", "defaultServer"]

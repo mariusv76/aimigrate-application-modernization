@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres-customerorder
+    environment:
+      POSTGRES_DB: orderdb
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: dbpass123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../Common/createOrderDB-postgres.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ../Common/addBusinessCustomer-postgres.sql:/docker-entrypoint-initdb.d/02-business.sql
+      - ../Common/addResidentialCustomer-postgres.sql:/docker-entrypoint-initdb.d/03-residential.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dbuser -d orderdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  customerorder-api:
+    build:
+      context: ..
+      dockerfile: Deployment/Dockerfile.liberty
+    container_name: customerorder-api
+    ports:
+      - "9080:9080"
+      - "9443:9443"
+    environment:
+      # Database configuration
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: orderdb
+      DB_USER: dbuser
+      DB_PASSWORD: dbpass123
+      
+      # OpenTelemetry configuration for local testing
+      OTEL_SERVICE_NAME: customerorder-api
+      OTEL_RESOURCE_ATTRIBUTES: deployment.environment=local
+      OTEL_TRACES_SAMPLER: parentbased_traceidratio
+      OTEL_TRACES_SAMPLER_ARG: "0.1"
+      OTEL_METRICS_EXPORTER: logging
+      OTEL_LOGS_EXPORTER: logging
+      OTEL_TRACES_EXPORTER: logging
+      
+      # Azure configuration (optional for local - will use environment variables if present)
+      # AZURE_TENANT_ID: ${AZURE_TENANT_ID}
+      # AZURE_CLIENT_ID: ${AZURE_CLIENT_ID}
+      # AZURE_CLIENT_SECRET: ${AZURE_CLIENT_SECRET}
+      # AZURE_KEYVAULT_ENDPOINT: https://kv-customerorder-dev.vault.azure.net/
+      # AZURE_APPCONFIGURATION_ENDPOINT: https://appconfig-customerorder.azconfig.io
+      # APPLICATIONINSIGHTS_CONNECTION_STRING: ${APPLICATIONINSIGHTS_CONNECTION_STRING}
+      
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9080/CustomerOrderServicesWeb/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+volumes:
+  postgres_data:

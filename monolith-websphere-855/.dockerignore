@@ -1,0 +1,58 @@
+# Version control
+.git
+.gitignore
+.github
+
+# IDE
+.vscode
+.idea
+*.iml
+.classpath
+.project
+.settings
+
+# Build outputs (will be rebuilt in container)
+**/target/
+**/build/
+
+# Test outputs
+**/test-output/
+**/test-results/
+
+# Logs
+*.log
+logs/
+
+# Documentation
+*.md
+docs/
+
+# CI/CD
+.azure/
+.deployment/
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Liberty server files (will be configured in container)
+**/servers/
+
+# Maven local repository
+.m2/
+
+# Node modules (if any)
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Outputs directory
+outputs/
