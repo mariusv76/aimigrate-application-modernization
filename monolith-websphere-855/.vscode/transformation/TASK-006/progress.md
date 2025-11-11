@@ -1,8 +1,8 @@
 # TASK-006 Progress Tracker
 
 Start Date: 2025-11-11
-Branch: agent-test
-Status: Initiated
+Branch: migration/task-006-azure-integration
+Status: In Progress - Phase 2 Complete
 
 ## Milestones
 - [x] Draft execution plan created (`.vscode/transformation/TASK-006/plan.md`)
@@ -10,26 +10,97 @@ Status: Initiated
 - [x] Todos file created (`.vscode/transformation/TASK-006/todos.md`)
 - [x] Infra folder scaffolded
 - [x] Bicep stubs committed
-- [ ] Azure resources provisioned (RG, KV, AppConfig, Insights, ACR)
-- [ ] Managed identity configured
-- [ ] Key Vault secrets added
-- [ ] App Configuration values added
-- [ ] Entra ID app registration documented
-- [ ] Security integration code added
-- [ ] OpenTelemetry instrumentation configured
-- [ ] Deployment succeeded
-- [ ] Telemetry validated
+- [x] Strategy documents created (secrets, auth, observability)
+- [x] Deployment agent contract specification
+- [x] Azure resources provisioned (RG, KV, AppConfig, Insights, ACR, Container Apps)
+- [x] Key Vault RBAC enabled
+- [x] Key Vault secrets added (db-password)
+- [x] App Configuration values added (db:host, db:port, db:name, telemetry:sampling)
+- [x] Azure SDK dependencies added to POM
+- [x] KeyVaultConfigSource implemented
+- [x] AppConfigurationConfigSource implemented
+- [x] ConfigSource implementations registered
+- [ ] Entra ID app registration created
+- [ ] Security annotations migrated
+- [ ] OpenTelemetry agent added to Docker image
+- [ ] Managed identity role assignments configured
+- [ ] Docker image built and pushed to ACR
+- [ ] Container App updated with new image
+- [ ] Deployment validated
+- [ ] Telemetry validated in Application Insights
 - [ ] Documentation finalized
 
 ## Activity Log
 | Timestamp | Activity | Details |
 |-----------|----------|---------|
-| 2025-11-11 | Plan Draft | Added initial Azure integration execution plan |
-| 2025-11-11 | Infra Scaffold | Created Bicep main + modules (kv, appconfig, insights, acr, appservice) |
-| 2025-11-11 | Tracking Files | Progress & todos relocated per updated instructions |
+| 2025-11-11 09:00 | Plan Draft | Added initial Azure integration execution plan |
+| 2025-11-11 09:15 | Infra Scaffold | Created Bicep main + modules (kv, appconfig, insights, acr, appservice) |
+| 2025-11-11 09:30 | Tracking Files | Progress & todos relocated per updated instructions |
+| 2025-11-11 10:00 | Strategy Docs | Created secrets-strategy.md, auth-strategy.md, observability-strategy.md |
+| 2025-11-11 10:30 | Deployment Contract | Created deployment-agent-inputs.md specification |
+| 2025-11-11 11:00 | Branch Created | Created migration/task-006-azure-integration branch |
+| 2025-11-11 12:00 | Bicep Modules | Added containerapps.bicep, updated parameters for North Europe |
+| 2025-11-11 13:00 | Infrastructure Deployed | Deployed KV, AppConfig, Insights, ACR, Container Apps to North Europe |
+| 2025-11-11 13:30 | Azure SDK Added | Added azure-sdk-bom and dependencies to parent POM |
+| 2025-11-11 14:00 | ConfigSource Impl | Implemented KeyVaultConfigSource with caching and managed identity |
+| 2025-11-11 14:15 | ConfigSource Impl | Implemented AppConfigurationConfigSource with dynamic refresh |
+| 2025-11-11 14:30 | Secrets Stored | Added db-password to Key Vault, db config to App Configuration |
 
 ## Blockers / Risks
 None currently.
 
-## Next
-Draft secrets, auth, and observability strategy documents.
+## Phase Completion Status
+
+### Phase 1: Planning & Infrastructure ✅ COMPLETE
+- Execution plan documented
+- Strategy documents created (secrets, auth, observability)
+- Bicep infrastructure scaffolded and deployed
+- Azure resources provisioned successfully
+  - Resource Group: rg-customerorder-dev (North Europe)
+  - Key Vault: kv-customerorder-dev (RBAC-enabled)
+  - App Configuration: appconfig-customerorder
+  - Application Insights: customerorder-insights
+  - Container Registry: customerorderdevacr.azurecr.io
+  - Container Apps Environment: cae-customerorder-dev
+  - Container App: ca-customerorder-dev
+
+### Phase 2: SDK Integration & Configuration ✅ COMPLETE
+- Azure SDK dependencies added (azure-identity, keyvault-secrets, appconfiguration)
+- KeyVaultConfigSource implemented with:
+  - DefaultAzureCredential for managed identity auth
+  - 5-minute caching with TTL
+  - Fallback to stale cache on errors
+- AppConfigurationConfigSource implemented with:
+  - 1-minute cache for dynamic refresh
+  - Label filtering by environment
+  - Full refresh on cache expiration
+- ConfigSource implementations registered via ServiceLoader
+- Secrets stored in Key Vault: db-password
+- Configuration stored in App Configuration:
+  - db:host = postgres-customerorder
+  - db:port = 5432
+  - db:name = orderdb
+  - telemetry:sampling = 0.1
+
+### Phase 3: Authentication & Authorization 🔄 IN PROGRESS
+- [ ] Create Entra ID App Registration
+- [ ] Configure app roles (Orders.Read, Orders.Write)
+- [ ] Update microprofile-config.properties with Tenant/Client IDs
+- [ ] Migrate @RolesAllowed annotations
+
+### Phase 4: Observability & Deployment 📋 PENDING
+- [ ] Update Dockerfile with OpenTelemetry agent
+- [ ] Configure role assignments for Container App managed identity
+- [ ] Build and push Docker image to ACR
+- [ ] Update Container App with new image
+- [ ] Verify telemetry in Application Insights
+
+### Phase 5: Documentation & Validation 📋 PENDING
+- [ ] Final handoff documentation
+- [ ] Deployment validation checklist
+
+## Next Steps
+1. Create Entra ID App Registration (customerorder-api-dev)
+2. Configure app roles for Orders.Read and Orders.Write
+3. Update microprofile-config.properties with actual values
+4. Migrate security annotations from @RolesAllowed("SecureShopper")
