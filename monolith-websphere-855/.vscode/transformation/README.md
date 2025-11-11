@@ -24,12 +24,12 @@ No task prompts - manual setup and assessment
 
 | Task | Prompt File | Description | Estimated Effort |
 |------|-------------|-------------|------------------|
-| **TASK-001** | [TASK-001-migration-prompt.md](TASK-001-migration-prompt.md) | Java 8 → Java 17 Upgrade | 40h → 20h (AI) |
-| **TASK-002** | [TASK-002-test-foundation-prompt.md](TASK-002-test-foundation-prompt.md) | Build comprehensive test suite (unit + integration) | 120h → 52h (AI) |
-| **TASK-003** | [TASK-003-jakarta-migration-prompt.md](TASK-003-jakarta-migration-prompt.md) | Migrate javax.* → jakarta.* namespace | 60h → 25h (AI) |
-| **TASK-004** | [TASK-004-jackson-upgrade-prompt.md](TASK-004-jackson-upgrade-prompt.md) | Upgrade Jackson & replace IBM JSON | 90h → 40h (AI) |
-| **TASK-004.5** | [TASK-004.5-open-liberty-deployment-prompt.md](TASK-004.5-open-liberty-deployment-prompt.md) | Deploy to Open Liberty & validate migration | 40h → 20h (AI) |
-| **TASK-004.6** | [TASK-004.6-jackson-classloading-fix-prompt.md](TASK-004.6-jackson-classloading-fix-prompt.md) | Fix Jackson classloading in Open Liberty | 4h → 2h (AI) |
+| **TASK-001** | [TASK-001-migration-prompt.md](../../.github/instructions/TASK-001-migration.instructions.md) | Java 8 → Java 17 Upgrade | 40h → 20h (AI) |
+| **TASK-002** | [TASK-002-test-foundation-prompt.md](../../.github/instructions/TASK-002-test-foundation.instructions.md) | Build comprehensive test suite (unit + integration) | 120h → 52h (AI) |
+| **TASK-003** | [TASK-003-jakarta-migration-prompt.md](../../.github/instructions/TASK-003-jakarta-migration.instructions.md) | Migrate javax.* → jakarta.* namespace | 60h → 25h (AI) |
+| **TASK-004** | [TASK-004-jackson-upgrade-prompt.md](../../.github/instructions/TASK-004-jackson-upgrade.instructions.md) | Upgrade Jackson & replace IBM JSON | 90h → 40h (AI) |
+| **TASK-004.5** | [TASK-004.5-open-liberty-deployment-prompt.md](../../.github/instructions/TASK-004.5-open-liberty-deployment.instructions.md) | Deploy to Open Liberty & validate migration | 40h → 20h (AI) |
+| **TASK-004.6** | [TASK-004.6-jackson-classloading-fix-prompt.md](../../.github/instructions/TASK-004.6-jackson-classloading-fix.instructions.md) | Fix Jackson classloading in Open Liberty | 4h → 2h (AI) |
 
 **Phase 1 Total:** 354h → 159h (55% reduction)
 
@@ -37,8 +37,8 @@ No task prompts - manual setup and assessment
 
 | Task | Prompt File | Description | Estimated Effort |
 |------|-------------|-------------|------------------|
-| **TASK-005** | [TASK-005-database-migration-prompt.md](TASK-005-database-migration-prompt.md) | Migrate DB2 → PostgreSQL | 140h → 70h (AI) |
-| **TASK-006** | [TASK-006-azure-integration-prompt.md](TASK-006-azure-integration-prompt.md) | Integrate Azure services (Entra ID, Key Vault, App Config) | 496h → 236h (AI) |
+| **TASK-005** | [TASK-005-database-migration-prompt.md](../../.github/instructions/TASK-005-database-migration.instructions.md) | Migrate DB2 → PostgreSQL | 140h → 70h (AI) |
+| **TASK-006** | [TASK-006-azure-integration-prompt.md](../../.github/instructions/TASK-006-azure-integration.instructions.md) | Integrate Azure services (Entra ID, Key Vault, App Config) | 496h → 236h (AI) |
 
 **Phase 2 Total:** 636h → 306h (52% reduction)
 
@@ -46,7 +46,7 @@ No task prompts - manual setup and assessment
 
 | Task | Prompt File | Description | Estimated Effort |
 |------|-------------|-------------|------------------|
-| **TASK-007** | [TASK-007-containerization-prompt.md](TASK-007-containerization-prompt.md) | Containerize & deploy to Azure Container Apps | 564h → 277h (AI) |
+| **TASK-007** | [TASK-007-containerization-prompt.md](../../.github/instructions/TASK-007-containerization.instructions.md) | Containerize & deploy to Azure Container Apps | 564h → 277h (AI) |
 
 **Phase 3 Total:** 564h → 277h (51% reduction)
 

@@ -37,9 +37,9 @@ You are an AI agent tasked with performing **TASK-007** for the Customer Order S
    - Commit message: "chore: create branch for containerization task"
 
 5. **Initialize progress tracking**
-   - Create `.transformation/progress/TASK-007-progress.md`
+   - Create `.vscode/transformation/TASK-007/progress.md`
    - Initialize with: task start time, current status, completed steps
-   - Create `.transformation/todos/TASK-007-todos.md`
+   - Create `.vscode/transformation/TASK-007/todos.md`
    - List all sub-tasks with checkboxes
 
 ### Phase 3: Implementation - Containerization
