@@ -49,6 +49,38 @@ Status: In Progress - Phase 2 Complete
 ## Blockers / Risks
 None currently.
 
+## Architectural Decisions
+
+### Spring Boot vs MicroProfile/Open Liberty
+**Decision**: Use MicroProfile ConfigSource instead of Spring Cloud Azure libraries.
+
+**Reasoning**:
+1. **Current Runtime**: Application runs on Open Liberty 24.0.0.11 with Jakarta EE 10 and MicroProfile 6.0
+2. **No Spring Framework**: The application does not use Spring Boot, Spring Security, or any Spring dependencies
+3. **Technology Stack**: 
+   - REST: Jakarta JAX-RS (not Spring MVC)
+   - DI: Jakarta CDI (not Spring DI)
+   - Security: MicroProfile JWT (not Spring Security)
+   - Config: MicroProfile Config (not Spring Boot @ConfigurationProperties)
+4. **TASK-006 Instructions Written for Spring**: The original instructions assume Spring Cloud Azure dependencies, but these are incompatible with Jakarta EE/Liberty
+5. **Correct Approach**: 
+   - Implemented custom MicroProfile ConfigSource implementations for Key Vault and App Configuration
+   - Used Azure SDK directly (azure-identity, azure-security-keyvault-secrets, azure-data-appconfiguration)
+   - Integrated via ServiceLoader mechanism (org.eclipse.microprofile.config.spi.ConfigSource)
+   - Maintained Liberty runtime without introducing Spring framework
+
+**Impact**: 
+- No Spring dependencies added
+- Full compatibility with existing Liberty/Jakarta EE architecture
+- Cleaner integration using MicroProfile standards
+- Managed identity works same way (DefaultAzureCredential)
+- Same Azure services used (Key Vault, App Configuration, Application Insights)
+
+**References**:
+- MicroProfile Config Spec: https://microprofile.io/project/eclipse/microprofile-config
+- Liberty MicroProfile: https://openliberty.io/docs/latest/microprofile.html
+- Azure SDK for Java: https://learn.microsoft.com/azure/developer/java/sdk/
+
 ## Phase Completion Status
 
 ### Phase 1: Planning & Infrastructure ✅ COMPLETE
