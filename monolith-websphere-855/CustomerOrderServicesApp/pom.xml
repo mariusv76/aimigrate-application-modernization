@@ -138,6 +138,32 @@
           </execution>
         </executions>
       </plugin>
+      <!-- Copy PostgreSQL JDBC driver into Liberty server resources so the library fileset resolves during runtime -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.6.0</version>
+        <executions>
+          <execution>
+            <id>copy-postgresql-driver</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.postgresql</groupId>
+                  <artifactId>postgresql</artifactId>
+                  <version>42.7.1</version>
+                  <destFileName>postgresql-42.7.1.jar</destFileName>
+                  <outputDirectory>${project.build.directory}/liberty/wlp/usr/servers/defaultServer/resources</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>
