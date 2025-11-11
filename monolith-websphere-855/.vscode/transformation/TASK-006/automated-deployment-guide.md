@@ -47,38 +47,50 @@ graph TD
 
 ## Deployment Methods
 
-### Method 1: PowerShell Script (Recommended)
+### Method 1: PowerShell Script with Post-Deployment (Recommended)
 
-The `deploy.ps1` script provides a streamlined deployment experience:
+The deployment uses a **two-stage approach** to avoid chicken-and-egg problems with Key Vault secret references:
 
+**Stage 1: Infrastructure Deployment**
 ```powershell
 # Navigate to infrastructure directory
 cd C:\AIMigrate\java\appmodernization-samples\monolith-websphere-855\infra
 
-# Deploy with default settings (North Europe, dev environment)
-.\deploy.ps1
-
-# Deploy with custom settings
-.\deploy.ps1 `
-    -ResourceGroup "rg-customerorder-prod" `
-    -Location "westeurope" `
-    -BaseName "customerorder" `
-    -Environment "prod" `
-    -UseContainerApps $true `
-    -SubscriptionId "your-subscription-id"
+# Deploy infrastructure (Container App with placeholder DB_PASSWORD)
+az deployment group create `
+    --resource-group rg-customerorder-dev `
+    --template-file .\main.bicep `
+    --parameters baseName=customerorder environment=dev useContainerApps=true
 ```
 
-**Script Features:**
-- ✅ Validates Azure subscription
-- ✅ Creates resource group if missing
-- ✅ Deploys all infrastructure including role assignments
-- ✅ Displays deployment outputs
-- ✅ Provides next-step guidance
-- ✅ Handles errors gracefully
+**Stage 2: Secrets Configuration**
+```powershell
+# Configure Container App secrets with Key Vault references
+.\post-deployment-secrets.ps1 `
+    -ResourceGroupName "rg-customerorder-dev" `
+    -ContainerAppName "ca-customerorder-dev" `
+    -KeyVaultName "kv-customerorder-dev"
+```
 
-### Method 2: Azure CLI Direct
+**Why Two-Stage Deployment?**
+- Container Apps cannot reference Key Vault secrets without proper role assignments
+- Role assignments require Container App managed identity (created during deployment)
+- Initial deployment uses placeholder for `DB_PASSWORD`
+- Post-deployment script configures Key Vault secret references after role assignments complete
+
+**Script Features:**
+- ✅ Validates Container App provisioning state
+- ✅ Verifies role assignments exist
+- ✅ Configures secrets with Key Vault references
+- ✅ Updates environment variables to use `secretRef`
+- ✅ Validates DB_PASSWORD is no longer plain text
+- ✅ Ensures secure configuration
+
+### Method 2: Azure CLI Direct (Two-Stage)
 
 For CI/CD pipelines or manual deployment:
+
+**Stage 1: Deploy Infrastructure**
 
 ```bash
 # Set variables
@@ -106,7 +118,19 @@ az deployment group show \
     -o table
 ```
 
+**Stage 2: Configure Secrets**
+
+```bash
+# Run post-deployment script
+./post-deployment-secrets.ps1 \
+    -ResourceGroupName "rg-customerorder-dev" \
+    -ContainerAppName "ca-customerorder-dev" \
+    -KeyVaultName "kv-customerorder-dev"
+```
+
 ### Method 3: Azure Portal
+
+**Note:** Portal deployment requires manual post-deployment step for secrets configuration.
 
 1. Navigate to **Resource Groups** → Select your resource group → **Deployments**
 2. Click **Create** → **Build your own template**

@@ -9,9 +9,14 @@ param acrLoginServer string
 @description('Application Insights connection string')
 @secure()
 param appInsightsConnectionString string
+@description('Key Vault name for secret references')
+param keyVaultName string
+@description('Azure Tenant ID')
+param tenantId string
 
 var caEnvName = 'cae-${baseName}-${environment}'
 var caName = 'ca-${baseName}-${environment}'
+var keyVaultUrl = 'https://${keyVaultName}${az.environment().suffixes.keyvaultDns}/'
 
 // Container Apps Environment
 resource containerAppEnv 'Microsoft.App/managedEnvironments@2023-05-01' = {
@@ -47,6 +52,12 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
           identity: 'system'
         }
       ]
+      secrets: [
+        {
+          name: 'app-insights-connection-string'
+          value: appInsightsConnectionString
+        }
+      ]
     }
     template: {
       containers: [
@@ -73,6 +84,30 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
             {
               name: 'OTEL_RESOURCE_ATTRIBUTES'
               value: 'deployment.environment=${environment}'
+            }
+            {
+              name: 'AZURE_KEYVAULT_ENDPOINT'
+              value: keyVaultUrl
+            }
+            {
+              name: 'AZURE_TENANT_ID'
+              value: tenantId
+            }
+            {
+              name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+              secretRef: 'app-insights-connection-string'
+            }
+            {
+              name: 'DB_PASSWORD'
+              value: 'placeholder-will-be-updated'
+            }
+            {
+              name: 'OTEL_TRACES_SAMPLER'
+              value: 'parentbased_traceidratio'
+            }
+            {
+              name: 'OTEL_TRACES_SAMPLER_ARG'
+              value: '0.1'
             }
           ]
         }

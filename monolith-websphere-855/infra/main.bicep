@@ -74,6 +74,8 @@ module containerApps './modules/containerapps.bicep' = if (useContainerApps) {
     location: location
     acrLoginServer: acr.outputs.loginServer
     appInsightsConnectionString: insights.outputs.connectionString
+    keyVaultName: kvName
+    tenantId: tenant().tenantId
   }
 }
 
