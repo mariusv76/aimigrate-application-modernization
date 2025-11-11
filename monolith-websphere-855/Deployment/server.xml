@@ -8,7 +8,8 @@
         
         <!-- MicroProfile 6.0 for cloud-native patterns -->
         <feature>microProfile-6.0</feature>
-        <!-- Health and Metrics provided by microProfile-6.0; removed older explicit versions to avoid conflicts -->
+           <!-- MicroProfile JWT already included via microProfile-6.0; issuer/audience configured via microprofile-config.properties -->
+           <!-- Health and Metrics provided by microProfile-6.0; removed older explicit versions to avoid conflicts -->
     </featureManager>
 
     <!-- HTTP Endpoint Configuration -->
