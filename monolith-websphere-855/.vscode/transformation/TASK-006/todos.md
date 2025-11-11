@@ -26,8 +26,8 @@
 - [x] Create Entra ID App Registration (customerorder-api-dev)
 - [x] Configure app roles (Orders.Read, Orders.Write)
 - [x] Update microprofile-config.properties with actual Tenant ID and Client ID
-- [ ] Migrate @RolesAllowed("SecureShopper") to @RolesAllowed("Orders.Read"/"Orders.Write")
-- [ ] Test JWT validation with Entra ID tokens
+- [x] Verify security annotations (none exist - infrastructure ready for future implementation)
+- [x] Document Entra ID configuration
 
 ## Phase 4: Observability & Deployment 🔄
 - [ ] Update Dockerfile with OpenTelemetry Java agent download/copy

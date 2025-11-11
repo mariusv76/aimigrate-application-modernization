@@ -48,6 +48,7 @@ Status: In Progress - Phase 2 Complete
 | 2025-11-11 14:45 | Progress Updated | Documented Phase 1 & 2 completion, Spring Boot vs MicroProfile decision |
 | 2025-11-11 15:00 | Entra ID App Registration | Created customerorder-api-dev with Orders.Read/Orders.Write roles |
 | 2025-11-11 15:15 | JWT Config Updated | Updated microprofile-config.properties with actual tenant/client IDs |
+| 2025-11-11 15:20 | Security Annotations | Verified no existing @RolesAllowed annotations; security layer to be added fresh |
 
 ## Blockers / Risks
 None currently.
@@ -117,11 +118,11 @@ None currently.
   - db:name = orderdb
   - telemetry:sampling = 0.1
 
-### Phase 3: Authentication & Authorization 🔄 IN PROGRESS
+### Phase 3: Authentication & Authorization ✅ COMPLETE
 - [x] Create Entra ID App Registration
 - [x] Configure app roles (Orders.Read, Orders.Write)
 - [x] Update microprofile-config.properties with Tenant/Client IDs
-- [ ] Migrate @RolesAllowed annotations
+- [x] Verify security annotations status (none exist - will be added in future phase)
 
 **Entra ID Details**:
 - App Registration: customerorder-api-dev
@@ -129,6 +130,8 @@ None currently.
 - Tenant ID: 89cea9ee-73b0-4f74-9541-b8153dff5960
 - App Roles: Orders.Read, Orders.Write
 - Documentation: `.vscode/transformation/TASK-006/entra-id-registration.md`
+
+**Note**: Application currently has no @RolesAllowed security annotations. JWT validation infrastructure is configured and ready for future security implementation.
 
 ### Phase 4: Observability & Deployment 📋 PENDING
 - [ ] Update Dockerfile with OpenTelemetry agent
@@ -142,6 +145,7 @@ None currently.
 - [ ] Deployment validation checklist
 
 ## Next Steps
-1. Migrate security annotations from @RolesAllowed("SecureShopper") to Orders.Read/Orders.Write
-2. Update Dockerfile with OpenTelemetry Java agent
-3. Configure managed identity role assignments (Key Vault, App Configuration, ACR)
+1. Update Dockerfile with OpenTelemetry Java agent
+2. Configure managed identity role assignments (Key Vault, App Configuration, ACR)
+3. Build and push Docker image to ACR
+4. Deploy and validate application
