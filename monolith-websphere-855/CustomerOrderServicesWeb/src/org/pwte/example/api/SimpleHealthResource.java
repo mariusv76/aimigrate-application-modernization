@@ -1,12 +1,13 @@
 package org.pwte.example.api;
 
+import javax.sql.DataSource;
+
 import jakarta.annotation.Resource;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import javax.sql.DataSource;
 
 @Path("/health")
 @Produces(MediaType.APPLICATION_JSON)

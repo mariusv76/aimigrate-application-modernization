@@ -36,6 +36,17 @@
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jsr310</artifactId>
     </dependency>
+    <!-- MicroProfile Health & Metrics APIs (Liberty provides implementations at runtime) -->
+    <dependency>
+      <groupId>org.eclipse.microprofile.health</groupId>
+      <artifactId>microprofile-health-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.microprofile.metrics</groupId>
+      <artifactId>microprofile-metrics-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
 
     <!-- Test Dependencies -->
     <dependency>
