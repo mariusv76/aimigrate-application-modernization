@@ -56,7 +56,6 @@ module acr './modules/acr.bicep' = {
   }
 }
 
-// Placeholder for App Service (initial target)
 module appService './modules/appservice.bicep' = if (!useContainerApps) {
   name: 'appServiceDeploy'
   params: {
@@ -64,6 +63,17 @@ module appService './modules/appservice.bicep' = if (!useContainerApps) {
     environment: environment
     location: location
     planSku: 'B1'
+  }
+}
+
+module containerApps './modules/containerapps.bicep' = if (useContainerApps) {
+  name: 'containerAppsDeploy'
+  params: {
+    baseName: baseName
+    environment: environment
+    location: location
+    acrLoginServer: acr.outputs.loginServer
+    appInsightsConnectionString: insights.outputs.connectionString
   }
 }
 

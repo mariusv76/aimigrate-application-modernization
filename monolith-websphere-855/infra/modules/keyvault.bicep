@@ -12,7 +12,7 @@ resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = {
       family: 'A'
       name: 'standard'
     }
-    enablePurgeProtection: true
+    enableRbacAuthorization: true
     enableSoftDelete: true
     enabledForDeployment: false
     enabledForTemplateDeployment: false

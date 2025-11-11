@@ -13,26 +13,6 @@ resource acr 'Microsoft.ContainerRegistry/registries@2023-07-01' = {
   }
   properties: {
     adminUserEnabled: false
-    dataEndpointEnabled: false
-    encryption: {
-      status: 'enabled'
-    }
-    networkRuleSet: {
-      defaultAction: 'Allow'
-    }
-    policies: {
-      quarantinePolicy: {
-        status: 'disabled'
-      }
-      trustPolicy: {
-        status: 'disabled'
-        type: 'Notary'
-      }
-      retentionPolicy: {
-        status: 'disabled'
-        days: 0
-      }
-    }
   }
 }
 
