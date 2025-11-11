@@ -65,6 +65,10 @@ Status: In Progress - Phase 4 (Observability) In Progress
 | 2025-11-11 17:40 | Firewall Rule | Added firewall rule to allow connection from development IP (77.173.178.210) |
 | 2025-11-11 17:45 | Schema Migration | Exported schema from local PostgreSQL, imported to Azure PostgreSQL (12 tables) |
 | 2025-11-11 17:50 | Data Migration | Migrated 2 customers, 2 suppliers to Azure PostgreSQL using pg_dump/restore |
+| 2025-11-11 18:00 | Role Assignments | Granted Container App managed identity access to Key Vault, App Configuration, ACR |
+| 2025-11-11 18:10 | ACR Push | Tagged and pushed Docker image (latest, v1.0.0) to customerorderdevacr.azurecr.io |
+| 2025-11-11 18:15 | Container App Update | Deployed image with Azure PostgreSQL connection, Application Insights integration |
+| 2025-11-11 18:20 | Deployment Validation | Verified health endpoints UP, datasource connected to Azure PostgreSQL |
 
 ## Blockers / Risks
 None currently.
@@ -190,10 +194,27 @@ None currently.
   - Imported 2 customers, 2 suppliers successfully
   - Verified row counts match source database
 - [x] Update App Configuration with Azure PostgreSQL FQDN (db:host = psql-customerorder-dev.postgres.database.azure.com)
-- [ ] Configure role assignments for Container App managed identity
-- [ ] Build and push Docker image to ACR
-- [ ] Update Container App with new image
+- [x] Configure role assignments for Container App managed identity
+  - Principal ID: a939a1c6-4627-43a3-9e72-c8a655b39c88
+  - Granted Key Vault Secrets User role
+  - Granted App Configuration Data Reader role
+  - Granted AcrPull role
+- [x] Build and push Docker image to ACR
+  - Tagged: customerorderdevacr.azurecr.io/customerorder-api:latest
+  - Tagged: customerorderdevacr.azurecr.io/customerorder-api:v1.0.0
+  - Pushed both tags successfully
+  - Image digest: sha256:a22277f65344aecb276304fa58381b85074f7b806ede02fa8fb61589a864b2b1
+- [x] Update Container App with new image and environment variables
+  - Image: customerorderdevacr.azurecr.io/customerorder-api:v1.0.0
+  - Configured all Azure service endpoints
+  - Added database connection parameters
+  - Configured OpenTelemetry for Application Insights
+  - Application URL: https://ca-customerorder-dev.agreeableriver-e0e3f1d8.northeurope.azurecontainerapps.io
+  - Status: Running (3 replicas configured, min 1)
+  - Health check: UP (datasource connected to Azure PostgreSQL)
+  - Startup time: 70 seconds
 - [ ] Verify telemetry in Application Insights
+- [ ] Test API endpoints with authentication token
 
 ### Phase 5: Documentation & Validation 📋 PENDING
 - [ ] Final handoff documentation
