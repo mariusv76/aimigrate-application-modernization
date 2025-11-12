@@ -13,6 +13,14 @@ param appInsightsConnectionString string
 param keyVaultName string
 @description('Azure Tenant ID')
 param tenantId string
+@description('App Configuration endpoint')
+param appConfigEndpoint string
+@description('PostgreSQL server hostname')
+param dbHost string
+@description('PostgreSQL database name')
+param dbName string = 'orderdb'
+@description('PostgreSQL admin username')
+param dbUser string = 'dbadmin'
 
 var caEnvName = 'cae-${baseName}-${environment}'
 var caName = 'ca-${baseName}-${environment}'
@@ -90,12 +98,32 @@ resource containerApp 'Microsoft.App/containerApps@2023-05-01' = {
               value: keyVaultUrl
             }
             {
+              name: 'AZURE_APPCONFIGURATION_ENDPOINT'
+              value: appConfigEndpoint
+            }
+            {
               name: 'AZURE_TENANT_ID'
               value: tenantId
             }
             {
               name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
               secretRef: 'app-insights-connection-string'
+            }
+            {
+              name: 'DB_HOST'
+              value: dbHost
+            }
+            {
+              name: 'DB_PORT'
+              value: '5432'
+            }
+            {
+              name: 'DB_NAME'
+              value: dbName
+            }
+            {
+              name: 'DB_USER'
+              value: dbUser
             }
             {
               name: 'DB_PASSWORD'

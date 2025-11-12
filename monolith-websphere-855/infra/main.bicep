@@ -76,6 +76,10 @@ module containerApps './modules/containerapps.bicep' = if (useContainerApps) {
     appInsightsConnectionString: insights.outputs.connectionString
     keyVaultName: kvName
     tenantId: tenant().tenantId
+    appConfigEndpoint: appConfig.outputs.endpoint
+    dbHost: 'psql-${nameSuffix}.postgres.database.azure.com'
+    dbName: 'orderdb'
+    dbUser: 'dbadmin'
   }
 }
 
