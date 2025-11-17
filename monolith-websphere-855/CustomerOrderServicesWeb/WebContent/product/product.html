@@ -2,10 +2,15 @@
 <!-- Build -->
 <!--    <script type="text/javascript" src="dojo_built/dojo/dojo/depot_product.js"></script> -->
 	<script>
-	dojo.require("depot.ProductController");
-	var productController = new depot.ProductController();
-	dojo.connect(dijit.byId("shop"),"onDownloadEnd",productController,productController.loadCatalog);
-	dojo.subscribe(accountController.ACCOUNT_LOAD,productController,productController.cartPreview);
+	// ProductController module pre-loaded in index.html
+	var productController;
+	
+	dojo.ready(function() {
+		// Module should already be loaded via index.html
+		productController = new depot.ProductController();
+		dojo.connect(dijit.byId("shop"),"onDownloadEnd",productController,productController.loadCatalog);
+		dojo.subscribe(accountController.ACCOUNT_LOAD,productController,productController.cartPreview);
+	});
 	</script>
 	<div class="categoryMenuPane">
 		<div id="categoryMenu" dojoType="dijit.Menu" class="categoryMenu">

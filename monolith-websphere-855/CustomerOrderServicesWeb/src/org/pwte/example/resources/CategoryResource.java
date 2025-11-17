@@ -35,7 +35,22 @@ public class CategoryResource
 	public Category loadCategory(@PathParam(value="id") int categoryId)
 	{
 		try {
-			return productSearch.loadCategory(categoryId);
+			Category category = productSearch.loadCategory(categoryId);
+			
+			// Break circular references before JSON serialization
+			if (category != null) {
+				category.setParent(null);
+				category.setProducts(null);
+				if (category.getSubCategories() != null) {
+					category.getSubCategories().forEach(subCat -> {
+						subCat.setParent(null);
+						subCat.setProducts(null);
+						subCat.setSubCategories(null);
+					});
+				}
+			}
+			
+			return category;
 		} catch (CategoryDoesNotExist e) {
 			throw new WebApplicationException(Response.Status.NOT_FOUND);
 		}
@@ -45,7 +60,24 @@ public class CategoryResource
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Category> loadTopLevelCategories()
 	{
-		return productSearch.getTopLevelCategories();
+		List<Category> categories = productSearch.getTopLevelCategories();
+		
+		// Break circular references before JSON serialization
+		if (categories != null) {
+			categories.forEach(category -> {
+				category.setParent(null);
+				category.setProducts(null);
+				if (category.getSubCategories() != null) {
+					category.getSubCategories().forEach(subCat -> {
+						subCat.setParent(null);
+						subCat.setProducts(null);
+						subCat.setSubCategories(null);
+					});
+				}
+			});
+		}
+		
+		return categories;
 	}
 	
 }

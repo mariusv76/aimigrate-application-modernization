@@ -25,13 +25,23 @@ dojo.registerModulePath("product","/CustomerOrderServicesWeb/product");
 dojo.registerModulePath("orderHistory","/CustomerOrderServicesWeb/orderHistory");
 dojo.registerModulePath("account","/CustomerOrderServicesWeb/account");
 
-dojo.require("depot.NavigationController");
-var nav = new depot.NavigationController();
-dojo.ready(dojo.hitch(nav,nav.loadedPage));
+// Declare controllers in global scope
+var nav;
+var accountController;
 
+// Pre-load all controllers
+dojo.require("depot.NavigationController");
 dojo.require("depot.AccountController");
-var accountController = new depot.AccountController();
-dojo.ready(dojo.hitch(accountController,accountController.loadAccount));
+dojo.require("depot.ProductController");  // Pre-load ProductController
+
+// Initialize controllers after modules are loaded
+dojo.ready(function() {
+	nav = new depot.NavigationController();
+	nav.loadedPage();
+	
+	accountController = new depot.AccountController();
+	accountController.loadAccount();
+});
 
 </script>
 </head>
