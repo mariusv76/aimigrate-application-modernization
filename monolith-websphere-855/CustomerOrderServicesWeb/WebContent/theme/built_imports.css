@@ -1,7 +1,8 @@
-@import url("../dijit/themes/dijit.css");
-@import url("../dijit/themes/claro/claro.css"); 
-@import url("../dojox/form/resources/BusyButton.css"); 
-@import url("../dojox/grid/resources/claroGrid.css");
-@import url("../dojo/resources/dojo.css");
-@import url("../dojo/resources/dnd.css");
+/* Dojo CSS resources from CDN (v1.10.4) - Built imports version */
+@import url("https://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dijit/themes/dijit.css");
+@import url("https://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dijit/themes/claro/claro.css"); 
+@import url("https://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojox/form/resources/BusyButton.css"); 
+@import url("https://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojox/grid/resources/claroGrid.css");
+@import url("https://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/resources/dojo.css");
+@import url("https://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/resources/dnd.css");
 

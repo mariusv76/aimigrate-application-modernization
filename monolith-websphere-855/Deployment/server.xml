@@ -115,9 +115,10 @@
     <!-- CORS Configuration (for development/testing) -->
     <cors 
         domain="/"
-        allowedOrigins="http://localhost:*,https://localhost:*"
+        allowedOrigins="http://localhost:*,https://localhost:*,https://*.azurecontainerapps.io"
         allowedMethods="GET,POST,PUT,DELETE,OPTIONS"
         allowedHeaders="*"
+        allowCredentials="true"
         maxAge="3600"/>
 
     <!-- Security Configuration -->

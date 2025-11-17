@@ -11,9 +11,9 @@
 .project
 .settings
 
-# Build outputs (will be rebuilt in container)
-**/target/
-**/build/
+# Build outputs (commented out to allow copying pre-built EAR)
+# **/target/
+# **/build/
 
 # Test outputs
 **/test-output/

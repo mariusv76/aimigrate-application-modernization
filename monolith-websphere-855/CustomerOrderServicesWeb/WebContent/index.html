@@ -1,14 +1,11 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head>
-
-<!-- Load Dojo Claro theme CSS from CDN -->
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/dojo/1.10.4/dijit/themes/claro/claro.css">
+<meta charset="UTF-8">
 <link rel="stylesheet" type="text/css"
 	href="theme/layout.css">
 	
 <title>Electronics and Movie Depot</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="GENERATOR"
 	content="Rational® Application Developer for WebSphere® Software">
 <!-- Load Dojo from CDN (v1.10.4 for legacy compatibility) -->
@@ -23,10 +20,10 @@ dojo.require("dojox.layout.ContentPane");
 dojo.require("dojo.parser");
 
 
-dojo.registerModulePath("depot","../../dojo_depot/depot");
-dojo.registerModulePath("product","../../product");
-dojo.registerModulePath("orderHistory","../../orderHistory");
-dojo.registerModulePath("account","../../account");
+dojo.registerModulePath("depot","/CustomerOrderServicesWeb/dojo_depot/depot");
+dojo.registerModulePath("product","/CustomerOrderServicesWeb/product");
+dojo.registerModulePath("orderHistory","/CustomerOrderServicesWeb/orderHistory");
+dojo.registerModulePath("account","/CustomerOrderServicesWeb/account");
 
 dojo.require("depot.NavigationController");
 var nav = new depot.NavigationController();
