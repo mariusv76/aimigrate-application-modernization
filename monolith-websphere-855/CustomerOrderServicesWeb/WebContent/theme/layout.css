@@ -3,11 +3,18 @@
 @import url("../product/product.css"); 
 @import url("../orderHistory/orderHistory.css"); 
 
+/* Ensure html and body have full height for layout */
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
 
 .outer
 {
 	background-color: #F5F5F5 ;
 	font-family: Verdana ;
+	height: 100%;
 }
 
 .layout

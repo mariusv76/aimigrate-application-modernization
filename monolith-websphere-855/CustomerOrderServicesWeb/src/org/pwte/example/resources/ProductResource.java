@@ -3,9 +3,14 @@ package org.pwte.example.resources;
 import java.util.Calendar;
 import java.util.List;
 
-import jakarta.ejb.EJB;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
+import org.pwte.example.domain.Product;
+import org.pwte.example.exception.ProductDoesNotExistException;
+import org.pwte.example.service.ProductSearchService;
+
+import jakarta.ejb.EJB;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -14,17 +19,6 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-/*
-import org.apache.wink.common.model.atom.AtomContent;
-import org.apache.wink.common.model.atom.AtomEntry;
-import org.apache.wink.common.model.atom.AtomFeed;
-import org.apache.wink.common.model.atom.AtomLink;
-import org.apache.wink.common.model.atom.AtomText;
-import org.apache.wink.common.model.atom.AtomTextType;
-*/
-import org.pwte.example.domain.Product;
-import org.pwte.example.exception.ProductDoesNotExistException;
-import org.pwte.example.service.ProductSearchService;
 
 
 @Path("/Product")
@@ -104,9 +98,23 @@ public class ProductResource {
 			{
 				throw new WebApplicationException(Response.Status.BAD_REQUEST);
 			}
-			return productSearch.loadProductsByCategory(categoryId);
-			
+		List<Product> products = productSearch.loadProductsByCategory(categoryId);
+		
+		// Break circular references in Category entities to prevent JSON serialization infinite loop
+		for (Product product : products) {
+			if (product.getCategories() != null) {
+				product.getCategories().forEach(category -> {
+					// Clear parent, subCategories AND products to break bidirectional relationships
+					category.setParent(null);
+					category.setSubCategories(null);
+					category.setProducts(null);  // Critical: breaks Product->Category->Product loop
+				});
+			}
 		}
+		
+		return products;
+		
+	}
 		
 		
 

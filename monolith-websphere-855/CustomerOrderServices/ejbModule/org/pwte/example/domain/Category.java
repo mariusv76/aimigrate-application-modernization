@@ -3,9 +3,12 @@ package org.pwte.example.domain;
 import java.io.Serializable;
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,6 +21,7 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 @NamedQuery(name="top.level.category",query="select c from Category c where c.parent IS NULL")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "categoryID")
 public class Category implements Serializable {
 	
 	private static final long serialVersionUID = -2872694133550658771L;
@@ -29,12 +33,14 @@ public class Category implements Serializable {
 	@Column(name="CAT_NAME")
 	private String name;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="PARENT_CAT")
+	@JsonbTransient
 	private Category parent;
 	
 	
-	@OneToMany(mappedBy="parent",fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="parent",fetch=FetchType.LAZY)
+	@JsonbTransient
 	private Collection<Category> subCategories;
 	
 	@ManyToMany(mappedBy="categories",fetch=FetchType.LAZY)
@@ -54,13 +60,13 @@ public class Category implements Serializable {
 		this.name = name;
 	}
 	
-	@JsonIgnore
 	public Category getParent() {
 		return parent;
 	}
 	public void setParent(Category parent) {
 		this.parent = parent;
 	}
+	
 	public Collection<Category> getSubCategories() {
 		return subCategories;
 	}
