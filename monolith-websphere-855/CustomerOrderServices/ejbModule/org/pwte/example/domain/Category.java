@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,18 +36,17 @@ public class Category implements Serializable {
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="PARENT_CAT")
-	@JsonbTransient
 	private Category parent;
 	
 	
 	@OneToMany(mappedBy="parent",fetch=FetchType.LAZY)
-	@JsonbTransient
 	private Collection<Category> subCategories;
 	
 	@ManyToMany(mappedBy="categories",fetch=FetchType.LAZY)
 	private Collection<Product> products;
 	
 	@JsonProperty(value="id")
+	@JsonbProperty(value="id")
 	public int getCategoryID() {
 		return categoryID;
 	}
@@ -60,6 +60,7 @@ public class Category implements Serializable {
 		this.name = name;
 	}
 	
+	@JsonbTransient
 	public Category getParent() {
 		return parent;
 	}
@@ -67,6 +68,7 @@ public class Category implements Serializable {
 		this.parent = parent;
 	}
 	
+	@JsonbTransient
 	public Collection<Category> getSubCategories() {
 		return subCategories;
 	}

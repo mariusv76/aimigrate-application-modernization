@@ -52,7 +52,7 @@ dojo.declare("depot.ProductController",null,
 				dojo.addClass(popMenu,"outer");
 				dojo.forEach(item.subCategories, dojo.hitch(this,function(subItem)
 				{
-					var mItem = new dijit.MenuItem({label:subItem.name,title:subItem.id});
+					var mItem = new dijit.MenuItem({label:subItem.name,title:subItem.categoryID});
 					dojo.connect(mItem,"onClick",this,this.selectCategory);
 					popMenu.addChild(mItem);
 				}));
