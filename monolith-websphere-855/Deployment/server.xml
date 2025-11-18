@@ -46,7 +46,9 @@
             portNumber="${DB_PORT}"
             databaseName="${DB_NAME}"
             user="${DB_USER}"
-            password="${DB_PASSWORD}"/>
+            password="${DB_PASSWORD}"
+            ssl="true"
+            sslmode="require"/>
         <connectionManager
             maxPoolSize="20"
             minPoolSize="5"
