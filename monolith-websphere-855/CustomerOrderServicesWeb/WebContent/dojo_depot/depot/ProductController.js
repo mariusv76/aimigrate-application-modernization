@@ -93,19 +93,16 @@ dojo.declare("depot.ProductController",null,
 	},
 	formatImage:function(item)
 	{
-		console.log("[ProductController] formatImage called with:", item);
 		// Handle missing or undefined images with placeholder
-		var imageSrc = item || 'images/placeholder.png';
-		return dojo.replace("<img src='{image}' height='100px' width='100px' onerror='this.src=\"images/placeholder.png\"' alt='Product Image'></img>",{image:imageSrc});
+		var imageSrc = item || 'images/placeholder.svg';
+		return dojo.replace("<img src='{image}' height='100px' width='100px' onerror='this.src=\"images/placeholder.svg\"' alt='Product Image'></img>",{image:imageSrc});
 	},
 	combineData:function(index,item)
 	{
-		console.log("[ProductController] combineData called with:", item);
 		return item;	
 	},	
 	formatData:function(item)
 	{
-		console.log("[ProductController] formatData called with:", item);
 		return dojo.replace("<div class='productTitle'>{name}</div><div>{price}</div>",item);
 	},
 	selectCategory:function(event)

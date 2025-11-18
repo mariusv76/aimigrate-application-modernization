@@ -29,6 +29,10 @@
 | 2025-11-18 16:35 | UI FULLY WORKING | Category menu, product grid, category selection all working |
 | 2025-11-18 16:40 | Testing Complete | Verified Electronics/Computers, Movies categories working |
 | 2025-11-18 18:05 | User Feedback | Images missing, popup menu too small - needs improvement |
+| 2025-11-18 18:10 | UX Improvements Started | Adding placeholder images and menu sizing |
+| 2025-11-18 18:20 | v1.2.3 Deployed | Image placeholders and larger menus deployed |
+| 2025-11-18 18:25 | Flickering Detected | User reports productMain div flickering |
+| 2025-11-18 18:30 | Flickering Fix Applied | Removed excessive console.log from formatImage, combineData, formatData |
 | 2025-11-18 18:10 | Image Fix Applied | Added placeholder.svg with onerror fallback handling |
 | 2025-11-18 18:12 | Menu Sizing Fixed | Increased popup width to 180px, padding to 8px/16px |
 | 2025-11-18 18:15 | CSS Improvements | Added dijit menu styling for better UX |
