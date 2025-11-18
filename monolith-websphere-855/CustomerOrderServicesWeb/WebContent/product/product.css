@@ -38,6 +38,21 @@ clear
 	background-color: #9F97AD;
 }
 
+/* Improved popup menu styling */
+.claro .dijitMenu {
+	min-width: 180px;
+}
+
+.claro .dijitMenuItem {
+	padding: 8px 16px;
+	font-size: 14px;
+	min-height: 24px;
+}
+
+.claro .dijitMenuItemLabel {
+	padding: 4px 8px;
+}
+
 #productGrid 
 {
 	border: none;

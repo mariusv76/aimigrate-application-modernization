@@ -60,11 +60,15 @@ dojo.declare("depot.ProductController",null,
 			{
 				// Category with subcategories - create popup menu
 				console.log("[ProductController] Creating popup menu for:", item.name);
-				var popMenu =  new dijit.Menu({parentMenu:menu});
+			var popMenu =  new dijit.Menu({parentMenu:menu, style:'min-width: 180px;'});
 				dojo.addClass(popMenu,"outer");
 				dojo.forEach(item.subCategories, dojo.hitch(this,function(subItem)
 				{
-					var mItem = new dijit.MenuItem({label:subItem.name,title:subItem.categoryID});
+					var mItem = new dijit.MenuItem({
+						label:subItem.name,
+						title:subItem.categoryID,
+						style:'padding: 8px 16px; font-size: 14px; min-width: 120px;'
+					});
 					dojo.connect(mItem,"onClick",this,this.selectCategory);
 					popMenu.addChild(mItem);
 				}));
@@ -90,7 +94,9 @@ dojo.declare("depot.ProductController",null,
 	formatImage:function(item)
 	{
 		console.log("[ProductController] formatImage called with:", item);
-		return dojo.replace("<img  src='{image}' height='100px' width='100px'></img>",{image:item});
+		// Handle missing or undefined images with placeholder
+		var imageSrc = item || 'images/placeholder.png';
+		return dojo.replace("<img src='{image}' height='100px' width='100px' onerror='this.src=\"images/placeholder.png\"' alt='Product Image'></img>",{image:imageSrc});
 	},
 	combineData:function(index,item)
 	{
