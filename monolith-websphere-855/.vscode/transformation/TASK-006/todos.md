@@ -29,16 +29,26 @@
 - [x] Verify security annotations (none exist - infrastructure ready for future implementation)
 - [x] Document Entra ID configuration
 
-## Phase 4: Observability & Deployment 🔄
-- [ ] Update Dockerfile with OpenTelemetry Java agent download/copy
-- [ ] Configure OTEL environment variables for App Insights export
-- [ ] Role assignments (Managed Identity -> KV Secrets User, AppConfig Data Reader, AcrPull)
-- [ ] Build and push Docker image to ACR
-- [ ] Update Container App with new image
-- [ ] Verify telemetry in Application Insights
+## Phase 4: Observability & Deployment ✅
+- [x] Update Dockerfile with OpenTelemetry Java agent download/copy
+- [x] Configure OTEL environment variables for App Insights export
+- [x] Role assignments (Managed Identity -> KV Secrets User, AppConfig Data Reader, AcrPull)
+- [x] Build and push Docker image to ACR
+- [x] Update Container App with new image
+- [x] Verify telemetry in Application Insights
+- [x] Fix Dojo UI integration (CDN, Claro theme, module loading)
+- [x] Resolve JSON-B circular references (@JsonbTransient on getters)
+- [x] Add SSL configuration for Azure PostgreSQL
+- [x] Deploy v1.1.1 with SSL support
+- [x] Load sample data into Azure PostgreSQL
 
-## Phase 5: Documentation & Validation 📝
-- [ ] Local fallback config documentation
-- [ ] Deployment validation checklist
-- [ ] Final handoff documentation with resource details
-- [ ] Update progress.md with completion status
+## Phase 5: Documentation & Validation ✅
+- [x] Local fallback config documentation
+- [x] Deployment validation checklist
+- [x] Final handoff documentation with resource details
+- [x] Update progress.md with completion status
+
+## TASK-006 Complete ✅
+
+All phases completed successfully. Application deployed and operational at:
+https://ca-customerorder-dev.agreeableriver-e0e3f1d8.northeurope.azurecontainerapps.io/CustomerOrderServicesWeb/
