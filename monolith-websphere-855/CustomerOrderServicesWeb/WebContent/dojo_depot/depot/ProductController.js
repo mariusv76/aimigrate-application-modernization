@@ -29,6 +29,7 @@ dojo.declare("depot.ProductController",null,
 	},
 	loadCatalog:function()
 	{
+		console.log("[ProductController] loadCatalog - Starting category load");
 		var getAccount = {
 			url: "jaxrs/Category",
 			handleAs: "json",
@@ -43,11 +44,22 @@ dojo.declare("depot.ProductController",null,
 	},
 	loadCatalogSuccess:function(data,ioArgs)
 	{
+		console.log("[ProductController] loadCatalogSuccess - Categories received:", data);
 		var menu = dijit.byId("categoryMenu");
+		
+		if (!menu) {
+			console.error("[ProductController] categoryMenu widget not found!");
+			return;
+		}
+		
+		console.log("[ProductController] categoryMenu widget found:", menu);
+		
 		dojo.forEach(data,dojo.hitch(this, function(item)
 		{
-			if(item.subCategories)
+			if(item.subCategories && item.subCategories.length > 0)
 			{
+				// Category with subcategories - create popup menu
+				console.log("[ProductController] Creating popup menu for:", item.name);
 				var popMenu =  new dijit.Menu({parentMenu:menu});
 				dojo.addClass(popMenu,"outer");
 				dojo.forEach(item.subCategories, dojo.hitch(this,function(subItem)
@@ -59,7 +71,17 @@ dojo.declare("depot.ProductController",null,
 				var pItem = new dijit.PopupMenuItem({label:item.name,popup:popMenu});
 				menu.addChild(pItem);
 			}
+			else
+			{
+				// Category without subcategories - create regular menu item
+				console.log("[ProductController] Creating regular menu item for:", item.name);
+				var mItem = new dijit.MenuItem({label:item.name,title:item.categoryID});
+				dojo.connect(mItem,"onClick",this,this.selectCategory);
+				menu.addChild(mItem);
+			}
 		}));
+		
+		console.log("[ProductController] Menu items added:", menu.getChildren().length);
 	},
 	loadCatalogError:function(e)
 	{
@@ -67,19 +89,31 @@ dojo.declare("depot.ProductController",null,
 	},
 	formatImage:function(item)
 	{
+		console.log("[ProductController] formatImage called with:", item);
 		return dojo.replace("<img  src='{image}' height='100px' width='100px'></img>",{image:item});
 	},
 	combineData:function(index,item)
 	{
+		console.log("[ProductController] combineData called with:", item);
 		return item;	
 	},	
 	formatData:function(item)
 	{
+		console.log("[ProductController] formatData called with:", item);
 		return dojo.replace("<div class='productTitle'>{name}</div><div>{price}</div>",item);
 	},
 	selectCategory:function(event)
 	{
+		console.log("[ProductController] selectCategory called with:", event);
+		console.log("[ProductController] Category ID:", event.target.parentNode.title);
+		
 		var grid = dijit.byId("productGrid");
+		if (!grid) {
+			console.error("[ProductController] productGrid widget not found!");
+			return;
+		}
+		
+		console.log("[ProductController] Setting grid query to categoryId:", event.target.parentNode.title);
 		grid.setQuery({categoryId:event.target.parentNode.title});
 		dojo.place("<div>"+event.target.innerHTML+"</div>","catHeader","only");
 	},
