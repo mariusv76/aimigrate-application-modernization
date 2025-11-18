@@ -107,8 +107,7 @@ dojo.declare("depot.ProductController",null,
 	},
 	selectCategory:function(event)
 	{
-		console.log("[ProductController] selectCategory called with:", event);
-		console.log("[ProductController] Category ID:", event.target.parentNode.title);
+		console.log("[ProductController] selectCategory called - Category ID:", event.target.parentNode.title);
 		
 		var grid = dijit.byId("productGrid");
 		if (!grid) {
@@ -116,9 +115,14 @@ dojo.declare("depot.ProductController",null,
 			return;
 		}
 		
-		console.log("[ProductController] Setting grid query to categoryId:", event.target.parentNode.title);
+		// Update header first (simpler DOM operation)
+		var catHeader = dojo.byId("catHeader");
+		if (catHeader) {
+			catHeader.innerHTML = event.target.innerHTML;
+		}
+		
+		// Update grid query (this triggers data fetch and re-render)
 		grid.setQuery({categoryId:event.target.parentNode.title});
-		dojo.place("<div>"+event.target.innerHTML+"</div>","catHeader","only");
 	},
 	cartPreview:function()
 	{
