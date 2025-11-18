@@ -19,7 +19,7 @@
 | 2025-11-18 15:52 | product.html Fixed | Changed idAttribute from 'id' to 'productId' |
 | 2025-11-18 15:54 | Fixes Committed | Commit 0329c28 - UI critical fixes |
 | 2025-11-18 15:58 | Local Testing Skipped | Liberty dev mode issues, proceeding to Azure deployment |
-| 2025-11-18 16:02 | Docker Build Complete | v1.2.0 built and pushed to ACR successfully |
+`| 2025-11-18 16:02 | Docker Build Complete | v1.2.0 built and pushed to ACR successfully |
 | 2025-11-18 16:03 | Azure Deployment Complete | Container App updated to v1.2.0, provisioning succeeded |
 | 2025-11-18 16:10 | Deployment Verified | Health check passing, code fixes deployed correctly |
 | 2025-11-18 16:15 | ContentPane Issue Found | Shop tab content not loading, investigating Dojo layout issue |
@@ -33,10 +33,11 @@
 | 2025-11-18 18:20 | v1.2.3 Deployed | Image placeholders and larger menus deployed |
 | 2025-11-18 18:25 | Flickering Detected | User reports productMain div flickering |
 | 2025-11-18 18:30 | Flickering Fix Applied | Removed excessive console.log from formatImage, combineData, formatData |
-| 2025-11-18 18:10 | Image Fix Applied | Added placeholder.svg with onerror fallback handling |
-| 2025-11-18 18:12 | Menu Sizing Fixed | Increased popup width to 180px, padding to 8px/16px |
-| 2025-11-18 18:15 | CSS Improvements | Added dijit menu styling for better UX |
-| 2025-11-18 18:18 | v1.2.3 Deployed | Image and menu improvements live on Azure |
+| 2025-11-18 18:35 | v1.2.4 Deployed | Removed console logging from formatters to fix flickering |
+| 2025-11-18 18:40 | Flickering Persists | User reports flickering still occurs when clicking subcategories |
+| 2025-11-18 18:45 | DOM Optimization | Replaced dojo.place with direct innerHTML for selectCategory |
+| 2025-11-18 18:50 | v1.2.5 Deployed | Optimized header update, more efficient DOM manipulation |
+| 2025-11-18 18:55 | Flickering RESOLVED | User confirms flickering is gone, UI smooth ✅ |
 
 ## Issues Identified
 
