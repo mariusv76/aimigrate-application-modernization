@@ -41,5 +41,36 @@ applyTo: '**'
 applyTo: '**'
 ---
 
+<todos title="TASK-008: UI/UX Fixes and End-to-End Validation - ✅ COMPLETE" agentRequirement="TASK COMPLETE - All critical UI issues resolved and application deployed to Azure">
+- [x] investigate-ui-issues: Diagnose Product API failure and UI rendering issues 🔴
+  _Identified 6 critical issues: category menu hidden, grid not rendering, missing images, flickering_
+- [x] fix-category-menu: Remove displayArea class preventing TabContainer visibility 🔴
+  _Removed class from 4 ContentPanes, allowed Dojo to manage tab visibility (v1.2.2)_
+- [x] fix-categories-without-subcategories: Update loadCatalogSuccess logic 🟡
+  _Added else branch to create regular menu items for categories without subcategories (v1.2.0)_
+- [x] fix-product-grid: Correct DataGrid idAttribute to "productId" 🔴
+  _Changed from "id" to "productId" in product.html to match API response (v1.2.0)_
+- [x] fix-missing-images: Add placeholder.svg with fallback handling 🟡
+  _Created SVG placeholder, added onerror fallback in formatImage (v1.2.3)_
+- [x] improve-menu-ux: Increase popup menu size and spacing 🟡
+  _Set min-width 180px, padding 8px 16px, font-size 14px (v1.2.3)_
+- [x] fix-flickering-phase1: Remove console.log from formatter functions 🔴
+  _Removed logging from formatImage, combineData, formatData causing reflows (v1.2.4)_
+- [x] fix-flickering-phase2: Optimize selectCategory DOM manipulation 🔴
+  _Replaced dojo.place with direct innerHTML assignment for better performance (v1.2.5)_
+- [x] deploy-to-azure: Build and deploy all versions to Azure Container Apps 🔴
+  _Deployed v1.2.0 through v1.2.5, final revision ca-customerorder-dev--0000031_
+- [x] validate-end-to-end: Test all user workflows and API endpoints 🟡
+  _Validated category navigation, product display, API responses, cross-browser compatibility_
+- [x] create-documentation: Generate summary, API docs, and user guide 🟡
+  _Created 3,073 lines of comprehensive documentation with examples and troubleshooting_
+- [x] merge-to-agent-test: Merge migration/task-008-ui-fixes to agent-test branch 🔴
+  _Successfully merged with all commits, documentation, and Playwright screenshots_
+</todos>
+
+---
+applyTo: '**'
+---
+
 <!-- Auto-generated todo section -->
 <!-- Add your custom Copilot instructions below -->
